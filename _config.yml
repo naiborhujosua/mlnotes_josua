@@ -41,7 +41,6 @@ minima:
   social_links:
     twitter: "naiborhu_josua"
     github: "naiborhujosua"
-    kaggle:"naiborhujosua"
 
 # Set this to true to get LaTeX math equation support
 use_math: 
