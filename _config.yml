@@ -6,8 +6,8 @@
 # https://learn-the-web.algonquindesign.ca/topics/markdown-yaml-cheat-sheet/#yaml
 # https://learnxinyminutes.com/docs/yaml/
 
-title: Machine Learning Operation(MLOps)
-description: All of my notes is written in a simple yet powerfull blog about my experiences in Machine Learning
+title: Machine Learning Notes
+description: All of my notes is written in a simple yet powerfull blog about Artificial Intelligence(AI)
 github_username: naiborhujosua
 # you can comment the below line out if your repo name is not different than your baseurl
 github_repo: "mlnotes_josua"
@@ -58,7 +58,7 @@ annotations: false
 show_tags: true
 
 # Add your Google Analytics ID here if you have one and want to use it
-google_analytics: 
+google_analytics:naiborhujosua
 
 exclude:
   - docker-compose.yml
