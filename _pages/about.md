@@ -4,12 +4,6 @@ title: About Me
 permalink: /about/
 ---
 
-
-- [Blog](https://naiborhujosua.medium.com/)
-- [LinkedIn](https://www.linkedin.com/in/josuanaiborhu/)
-
-## Bio
-
 Josua is a business development analyst who turns into a self-taught Data Scientist. His interests include statistical learning,predictive modeling, network experimentation, and causal inference.
 He loves running and it teaches him against giving up doing anything, even when implementing the Data Science lifecycle.
 
