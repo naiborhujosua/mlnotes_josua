@@ -9,7 +9,7 @@ permalink: /about/
 - [LinkedIn](https://www.linkedin.com/in/josuanaiborhu/)
 
 ## Bio
-<img align="left" height="275" src="{{site.baseurl}}/images/hello.png">
+<img align="left" height="275" src="{{site.baseurl}}/images/hello.jpg">
 
 Josua is a business development analyst who turns into a self-taught Data Scientist. His interests include statistical learning,predictive modeling, network experimentation, and causal inference.
 He loves running and it teaches him against giving up doing anything, even when implementing the Data Science lifecycle.
