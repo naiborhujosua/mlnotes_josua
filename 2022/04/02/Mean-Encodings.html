@@ -1,0 +1,900 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="twitter:card" content="summary_large_image" /><!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>Mean encodings | Machine Learning Notes</title>
+<meta name="generator" content="Jekyll v4.1.1" />
+<meta property="og:title" content="Mean encodings" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="My notes about Artificial Intelligence(AI)" />
+<meta property="og:description" content="My notes about Artificial Intelligence(AI)" />
+<link rel="canonical" href="https://naiborhujosua.github.io/mlnotes_josua/2022/04/02/Mean-Encodings.html" />
+<meta property="og:url" content="https://naiborhujosua.github.io/mlnotes_josua/2022/04/02/Mean-Encodings.html" />
+<meta property="og:site_name" content="Machine Learning Notes" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2022-04-02T00:00:00-05:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="Mean encodings" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","dateModified":"2022-04-02T00:00:00-05:00","datePublished":"2022-04-02T00:00:00-05:00","description":"My notes about Artificial Intelligence(AI)","headline":"Mean encodings","mainEntityOfPage":{"@type":"WebPage","@id":"https://naiborhujosua.github.io/mlnotes_josua/2022/04/02/Mean-Encodings.html"},"url":"https://naiborhujosua.github.io/mlnotes_josua/2022/04/02/Mean-Encodings.html"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/mlnotes_josua/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="https://naiborhujosua.github.io/mlnotes_josua/feed.xml" title="Machine Learning Notes" /><link rel="shortcut icon" type="image/x-icon" href="/mlnotes_josua/images/favicon.ico"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Primer/15.2.0/primer.css" integrity="sha512-xTz2ys4coGAOz8vuV1NcQBkgVmKhsSEtjbqyMJbBHRplFuvKIUo6xhLHpAyPt9mfR6twHJgn9OgVLuqOvjeBhg==" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css" integrity="sha512-1PKOgIY59xJ8Co8+NE6FZ+LOAZKjy+KY8iq0G4B3CyeY6wYHN3yt9PW0XpSriVlkMXe40PTKnXrLnZ9+fkDaog==" crossorigin="anonymous" />
+
+<script>
+function wrap_img(fn) {
+    if (document.attachEvent ? document.readyState === "complete" : document.readyState !== "loading") {
+        var elements = document.querySelectorAll(".post img");
+        Array.prototype.forEach.call(elements, function(el, i) {
+            if (el.getAttribute("title") && (el.className != "emoji")) {
+                const caption = document.createElement('figcaption');
+                var node = document.createTextNode(el.getAttribute("title"));
+                caption.appendChild(node);
+                const wrapper = document.createElement('figure');
+                wrapper.className = 'image';
+                el.parentNode.insertBefore(wrapper, el);
+                el.parentNode.removeChild(el);
+                wrapper.appendChild(el);
+                wrapper.appendChild(caption);
+            }
+        });
+    } else { document.addEventListener('DOMContentLoaded', fn); }
+}
+window.onload = wrap_img;
+</script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function(){
+    // add link icon to anchor tags
+    var elem = document.querySelectorAll(".anchor-link")
+    elem.forEach(e => (e.innerHTML = '<i class="fas fa-link fa-xs"></i>'));
+    });
+</script>
+</head>
+<body><header class="site-header">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/mlnotes_josua/">Machine Learning Notes</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"><a class="page-link" href="/mlnotes_josua/about/">About Me</a><a class="page-link" href="/mlnotes_josua/search/">Search</a><a class="page-link" href="/mlnotes_josua/categories/">Tags</a></div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">Mean encodings</h1><p class="post-meta post-meta-title"><time class="dt-published" datetime="2022-04-02T00:00:00-05:00" itemprop="datePublished">
+        Apr 2, 2022
+      </time>
+       • <span class="read-time" title="Estimated read time">
+    
+    
+      5 min read
+    
+</span></p>
+
+    
+
+    
+      
+        <div class="pb-5 d-flex flex-justify-center">
+          <div class="px-2">
+
+    <a href="https://github.com/naiborhujosua/mlnotes_josua/tree/master/_notebooks/2022-04-02-Mean-Encodings.ipynb" role="button" target="_blank">
+<img class="notebook-badge-image" src="/mlnotes_josua/assets/badges/github.svg" alt="View On GitHub">
+    </a>
+</div>
+
+          <div class="px-2">
+    <a href="https://mybinder.org/v2/gh/naiborhujosua/mlnotes_josua/master?filepath=_notebooks%2F2022-04-02-Mean-Encodings.ipynb" target="_blank">
+        <img class="notebook-badge-image" src="/mlnotes_josua/assets/badges/binder.svg" alt="Open In Binder"/>
+    </a>
+</div>
+
+          <div class="px-2">
+    <a href="https://colab.research.google.com/github/naiborhujosua/mlnotes_josua/blob/master/_notebooks/2022-04-02-Mean-Encodings.ipynb" target="_blank">
+        <img class="notebook-badge-image" src="/mlnotes_josua/assets/badges/colab.svg" alt="Open In Colab"/>
+    </a>
+</div>
+          <div class="px-2">
+  <a href="https://deepnote.com/launch?url=https%3A%2F%2Fgithub.com%2Fnaiborhujosua%2Fmlnotes_josua%2Fblob%2Fmaster%2F_notebooks%2F2022-04-02-Mean-Encodings.ipynb" target="_blank">
+      <img class="notebook-badge-image" src="/mlnotes_josua/assets/badges/deepnote.svg" alt="Launch in Deepnote"/>
+  </a>
+</div>
+
+        </div>
+      </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <!--
+#################################################
+### THIS FILE WAS AUTOGENERATED! DO NOT EDIT! ###
+#################################################
+# file to edit: _notebooks/2022-04-02-Mean-Encodings.ipynb
+-->
+
+<div class="container" id="notebook-container">
+        
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Version 1.1.0</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>In this programming assignment you will be working with <code>1C</code> dataset from the final competition. You are asked to encode <code>item_id</code> in 4 different ways:</p>
+
+<pre><code>1) Via KFold scheme;  
+2) Via Leave-one-out scheme;
+3) Via smoothing scheme;
+4) Via expanding mean scheme.
+
+</code></pre>
+<p><strong>You will need to submit</strong> the correlation coefficient between resulting encoding and target variable up to 4 decimal places.</p>
+<h3 id="General-tips">General tips<a class="anchor-link" href="#General-tips"> </a></h3><ul>
+<li>Fill NANs in the encoding with <code>0.3343</code>.</li>
+<li>Some encoding schemes depend on sorting order, so in order to avoid confusion, please use the following code snippet to construct the data frame. This snippet also implements mean encoding without regularization.</li>
+</ul>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">from</span> <span class="nn">itertools</span> <span class="kn">import</span> <span class="n">product</span>
+<span class="kn">import</span> <span class="nn">warnings</span>
+<span class="n">warnings</span><span class="o">.</span><span class="n">simplefilter</span><span class="p">(</span><span class="n">action</span><span class="o">=</span><span class="s1">&#39;ignore&#39;</span><span class="p">,</span> <span class="n">category</span><span class="o">=</span><span class="ne">FutureWarning</span><span class="p">)</span>
+<span class="kn">from</span> <span class="nn">grader</span> <span class="kn">import</span> <span class="n">Grader</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h1 id="Read-data">Read data<a class="anchor-link" href="#Read-data"> </a></h1>
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">sales</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;../readonly/final_project_data/sales_train.csv.gz&#39;</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">sales</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+<div class="output_html rendered_html output_subarea output_execute_result">
+<div>
+<style>
+    .dataframe thead tr:only-child th {
+        text-align: right;
+    }
+
+    .dataframe thead th {
+        text-align: left;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>date</th>
+      <th>date_block_num</th>
+      <th>shop_id</th>
+      <th>item_id</th>
+      <th>item_price</th>
+      <th>item_cnt_day</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>02.01.2013</td>
+      <td>0</td>
+      <td>59</td>
+      <td>22154</td>
+      <td>999.00</td>
+      <td>1.0</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>03.01.2013</td>
+      <td>0</td>
+      <td>25</td>
+      <td>2552</td>
+      <td>899.00</td>
+      <td>1.0</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>05.01.2013</td>
+      <td>0</td>
+      <td>25</td>
+      <td>2552</td>
+      <td>899.00</td>
+      <td>-1.0</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>06.01.2013</td>
+      <td>0</td>
+      <td>25</td>
+      <td>2554</td>
+      <td>1709.05</td>
+      <td>1.0</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>15.01.2013</td>
+      <td>0</td>
+      <td>25</td>
+      <td>2555</td>
+      <td>1099.00</td>
+      <td>1.0</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">sales</span><span class="o">.</span><span class="n">shape</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>(2935849, 6)</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h1 id="Aggregate-data">Aggregate data<a class="anchor-link" href="#Aggregate-data"> </a></h1>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Since the competition task is to make a monthly prediction, we need to aggregate the data to montly level before doing any encodings. The following code-cell serves just that purpose.</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">index_cols</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;shop_id&#39;</span><span class="p">,</span> <span class="s1">&#39;item_id&#39;</span><span class="p">,</span> <span class="s1">&#39;date_block_num&#39;</span><span class="p">]</span>
+
+<span class="c1"># For every month we create a grid from all shops/items combinations from that month</span>
+<span class="n">grid</span> <span class="o">=</span> <span class="p">[]</span> 
+<span class="k">for</span> <span class="n">block_num</span> <span class="ow">in</span> <span class="n">sales</span><span class="p">[</span><span class="s1">&#39;date_block_num&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">unique</span><span class="p">():</span>
+    <span class="n">cur_shops</span> <span class="o">=</span> <span class="n">sales</span><span class="p">[</span><span class="n">sales</span><span class="p">[</span><span class="s1">&#39;date_block_num&#39;</span><span class="p">]</span><span class="o">==</span><span class="n">block_num</span><span class="p">][</span><span class="s1">&#39;shop_id&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">unique</span><span class="p">()</span>
+    <span class="n">cur_items</span> <span class="o">=</span> <span class="n">sales</span><span class="p">[</span><span class="n">sales</span><span class="p">[</span><span class="s1">&#39;date_block_num&#39;</span><span class="p">]</span><span class="o">==</span><span class="n">block_num</span><span class="p">][</span><span class="s1">&#39;item_id&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">unique</span><span class="p">()</span>
+    <span class="n">grid</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">product</span><span class="p">(</span><span class="o">*</span><span class="p">[</span><span class="n">cur_shops</span><span class="p">,</span> <span class="n">cur_items</span><span class="p">,</span> <span class="p">[</span><span class="n">block_num</span><span class="p">]])),</span><span class="n">dtype</span><span class="o">=</span><span class="s1">&#39;int32&#39;</span><span class="p">))</span>
+
+<span class="c1">#turn the grid into pandas dataframe</span>
+<span class="n">grid</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">vstack</span><span class="p">(</span><span class="n">grid</span><span class="p">),</span> <span class="n">columns</span> <span class="o">=</span> <span class="n">index_cols</span><span class="p">,</span><span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">int32</span><span class="p">)</span>
+
+<span class="c1">#get aggregated values for (shop_id, item_id, month)</span>
+<span class="n">gb</span> <span class="o">=</span> <span class="n">sales</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="n">index_cols</span><span class="p">,</span><span class="n">as_index</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span><span class="o">.</span><span class="n">agg</span><span class="p">({</span><span class="s1">&#39;item_cnt_day&#39;</span><span class="p">:{</span><span class="s1">&#39;target&#39;</span><span class="p">:</span><span class="s1">&#39;sum&#39;</span><span class="p">}})</span>
+
+<span class="c1">#fix column names</span>
+<span class="n">gb</span><span class="o">.</span><span class="n">columns</span> <span class="o">=</span> <span class="p">[</span><span class="n">col</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">if</span> <span class="n">col</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">==</span><span class="s1">&#39;&#39;</span> <span class="k">else</span> <span class="n">col</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="n">gb</span><span class="o">.</span><span class="n">columns</span><span class="o">.</span><span class="n">values</span><span class="p">]</span>
+<span class="c1">#join aggregated data to the grid</span>
+<span class="n">all_data</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span><span class="n">grid</span><span class="p">,</span><span class="n">gb</span><span class="p">,</span><span class="n">how</span><span class="o">=</span><span class="s1">&#39;left&#39;</span><span class="p">,</span><span class="n">on</span><span class="o">=</span><span class="n">index_cols</span><span class="p">)</span><span class="o">.</span><span class="n">fillna</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+<span class="c1">#sort the data</span>
+<span class="n">all_data</span><span class="o">.</span><span class="n">sort_values</span><span class="p">([</span><span class="s1">&#39;date_block_num&#39;</span><span class="p">,</span><span class="s1">&#39;shop_id&#39;</span><span class="p">,</span><span class="s1">&#39;item_id&#39;</span><span class="p">],</span><span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h1 id="Mean-encodings-without-regularization">Mean encodings without regularization<a class="anchor-link" href="#Mean-encodings-without-regularization"> </a></h1>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>After we did the techinical work, we are ready to actually <em>mean encode</em> the desired <code>item_id</code> variable.</p>
+<p>Here are two ways to implement mean encoding features <em>without</em> any regularization. You can use this code as a starting point to implement regularized techniques.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h4 id="Method-1">Method 1<a class="anchor-link" href="#Method-1"> </a></h4>
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">item_id_target_mean</span> <span class="o">=</span> <span class="n">all_data</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s1">&#39;item_id&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">target</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+
+<span class="c1"># In our non-regularized case we just *map* the computed means to the `item_id`&#39;s</span>
+<span class="n">all_data</span><span class="p">[</span><span class="s1">&#39;item_target_enc&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">all_data</span><span class="p">[</span><span class="s1">&#39;item_id&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="n">item_id_target_mean</span><span class="p">)</span>
+
+<span class="c1"># Fill NaNs</span>
+<span class="n">all_data</span><span class="p">[</span><span class="s1">&#39;item_target_enc&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">fillna</span><span class="p">(</span><span class="mf">0.3343</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span> 
+
+<span class="c1"># Print correlation</span>
+<span class="n">encoded_feature</span> <span class="o">=</span> <span class="n">all_data</span><span class="p">[</span><span class="s1">&#39;item_target_enc&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">corrcoef</span><span class="p">(</span><span class="n">all_data</span><span class="p">[</span><span class="s1">&#39;target&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">,</span> <span class="n">encoded_feature</span><span class="p">)[</span><span class="mi">0</span><span class="p">][</span><span class="mi">1</span><span class="p">])</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>0.483038698862
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h4 id="Method-2">Method 2<a class="anchor-link" href="#Method-2"> </a></h4>
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">     Differently to `.target.mean()` function `transform` </span>
+<span class="sd">   will return a dataframe with an index like in `all_data`.</span>
+<span class="sd">   Basically this single line of code is equivalent to the first two lines from of Method 1.</span>
+<span class="sd">&#39;&#39;&#39;</span>
+<span class="n">all_data</span><span class="p">[</span><span class="s1">&#39;item_target_enc&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">all_data</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s1">&#39;item_id&#39;</span><span class="p">)[</span><span class="s1">&#39;target&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="s1">&#39;mean&#39;</span><span class="p">)</span>
+
+<span class="c1"># Fill NaNs</span>
+<span class="n">all_data</span><span class="p">[</span><span class="s1">&#39;item_target_enc&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">fillna</span><span class="p">(</span><span class="mf">0.3343</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span> 
+
+<span class="c1"># Print correlation</span>
+<span class="n">encoded_feature</span> <span class="o">=</span> <span class="n">all_data</span><span class="p">[</span><span class="s1">&#39;item_target_enc&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">corrcoef</span><span class="p">(</span><span class="n">all_data</span><span class="p">[</span><span class="s1">&#39;target&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">,</span> <span class="n">encoded_feature</span><span class="p">)[</span><span class="mi">0</span><span class="p">][</span><span class="mi">1</span><span class="p">])</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>0.483038698862
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>See the printed value? It is the correlation coefficient between the target variable and your new encoded feature. You need to <strong>compute correlation coefficient</strong> between the encodings, that you will implement and <strong>submit those to coursera</strong>.</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">grader</span> <span class="o">=</span> <span class="n">Grader</span><span class="p">()</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h1 id="1.-KFold-scheme">1. KFold scheme<a class="anchor-link" href="#1.-KFold-scheme"> </a></h1>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Explained starting at 41 sec of <a href="https://www.coursera.org/learn/competitive-data-science/lecture/LGYQ2/regularization">Regularization video</a>.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><strong>Now it's your turn to write the code!</strong></p>
+<p>You may use 'Regularization' video as a reference for all further tasks.</p>
+<p>First, implement KFold scheme with five folds. Use KFold(5) from sklearn.model_selection.</p>
+<ol>
+<li>Split your data in 5 folds with <code>sklearn.model_selection.KFold</code> with <code>shuffle=False</code> argument.</li>
+<li><p>Iterate through folds: use all but the current fold to calculate mean target for each level <code>item_id</code>, and  fill the current fold.</p>
+<ul>
+<li>See the <strong>Method 1</strong> from the example implementation. In particular learn what <code>map</code> and pd.Series.map functions do. They are pretty handy in many situations.</li>
+</ul>
+</li>
+</ol>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.model_selection</span> <span class="kn">import</span> <span class="n">KFold</span>
+<span class="n">kf</span> <span class="o">=</span> <span class="n">KFold</span><span class="p">(</span><span class="n">n_splits</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span><span class="n">shuffle</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">tr_ind</span><span class="p">,</span> <span class="n">val_ind</span> <span class="ow">in</span> <span class="n">kf</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">all_data</span><span class="p">):</span>
+    <span class="n">X_tr</span><span class="p">,</span> <span class="n">X_val</span> <span class="o">=</span> <span class="n">all_data</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="n">tr_ind</span><span class="p">],</span> <span class="n">all_data</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="n">val_ind</span><span class="p">]</span>
+    <span class="n">X_val</span><span class="p">[</span><span class="s1">&#39;item_target_enc&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">X_val</span><span class="p">[</span><span class="s1">&#39;item_id&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="n">X_tr</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s1">&#39;item_id&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">target</span><span class="o">.</span><span class="n">mean</span><span class="p">())</span>
+    <span class="n">all_data</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="n">val_ind</span><span class="p">]</span> <span class="o">=</span> <span class="n">X_val</span>
+    
+<span class="n">all_data</span><span class="p">[</span><span class="s1">&#39;item_target_enc&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">fillna</span><span class="p">(</span><span class="mf">0.3343</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span> 
+<span class="n">encoded_feature</span> <span class="o">=</span> <span class="n">all_data</span><span class="p">[</span><span class="s1">&#39;item_target_enc&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span>
+<span class="c1"># You will need to compute correlation like that</span>
+<span class="n">corr</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">corrcoef</span><span class="p">(</span><span class="n">all_data</span><span class="p">[</span><span class="s1">&#39;target&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">,</span> <span class="n">encoded_feature</span><span class="p">)[</span><span class="mi">0</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">corr</span><span class="p">)</span>
+<span class="n">grader</span><span class="o">.</span><span class="n">submit_tag</span><span class="p">(</span><span class="s1">&#39;KFold_scheme&#39;</span><span class="p">,</span> <span class="n">corr</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stderr output_text">
+<pre>/opt/conda/lib/python3.6/site-packages/ipykernel_launcher.py:6: SettingWithCopyWarning: 
+A value is trying to be set on a copy of a slice from a DataFrame.
+Try using .loc[row_indexer,col_indexer] = value instead
+
+See the caveats in the documentation: http://pandas.pydata.org/pandas-docs/stable/indexing.html#indexing-view-versus-copy
+  
+</pre>
+</div>
+</div>
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>0.41645907128
+Current answer for task KFold_scheme is: 0.41645907128
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h1 id="2.-Leave-one-out-scheme">2. Leave-one-out scheme<a class="anchor-link" href="#2.-Leave-one-out-scheme"> </a></h1>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Now, implement leave-one-out scheme. Note that if you just simply set the number of folds to the number of samples and run the code from the <strong>KFold scheme</strong>, you will probably wait for a very long time.</p>
+<p>To implement a faster version, note, that to calculate mean target value using all the objects but one <em>given object</em>, you can:</p>
+<ol>
+<li>Calculate sum of the target values using all the objects.</li>
+<li>Then subtract the target of the <em>given object</em> and divide the resulting value by <code>n_objects - 1</code>. </li>
+</ol>
+<p>Note that you do not need to perform <code>1.</code> for every object. And <code>2.</code> can be implemented without any <code>for</code> loop.</p>
+<p>It is the most convenient to use <code>.transform</code> function as in <strong>Method 2</strong>.</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">target_sum</span> <span class="o">=</span> <span class="n">all_data</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s1">&#39;item_id&#39;</span><span class="p">)[</span><span class="s1">&#39;target&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="s1">&#39;sum&#39;</span><span class="p">)</span>
+<span class="n">n_objects</span> <span class="o">=</span> <span class="n">all_data</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s1">&#39;item_id&#39;</span><span class="p">)[</span><span class="s1">&#39;target&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="s1">&#39;count&#39;</span><span class="p">)</span>
+<span class="n">all_data</span><span class="p">[</span><span class="s1">&#39;item_target_enc&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">target_sum</span> <span class="o">-</span> <span class="n">all_data</span><span class="p">[</span><span class="s1">&#39;target&#39;</span><span class="p">])</span> <span class="o">/</span> <span class="p">(</span><span class="n">n_objects</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
+<span class="n">all_data</span><span class="p">[</span><span class="s1">&#39;item_target_enc&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">fillna</span><span class="p">(</span><span class="mf">0.3343</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span> 
+<span class="n">encoded_feature</span> <span class="o">=</span> <span class="n">all_data</span><span class="p">[</span><span class="s1">&#39;item_target_enc&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span>
+
+<span class="n">corr</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">corrcoef</span><span class="p">(</span><span class="n">all_data</span><span class="p">[</span><span class="s1">&#39;target&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">,</span> <span class="n">encoded_feature</span><span class="p">)[</span><span class="mi">0</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">corr</span><span class="p">)</span>
+<span class="n">grader</span><span class="o">.</span><span class="n">submit_tag</span><span class="p">(</span><span class="s1">&#39;Leave-one-out_scheme&#39;</span><span class="p">,</span> <span class="n">corr</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>0.480384831129
+Current answer for task Leave-one-out_scheme is: 0.480384831129
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h1 id="3.-Smoothing">3. Smoothing<a class="anchor-link" href="#3.-Smoothing"> </a></h1>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Explained starting at 4:03 of <a href="https://www.coursera.org/learn/competitive-data-science/lecture/LGYQ2/regularization">Regularization video</a>.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Next, implement smoothing scheme with $\alpha = 100$. Use the formula from the first slide in the video and $0.3343$ as <code>globalmean</code>. Note that <code>nrows</code> is the number of objects that belong to a certain category (not the number of rows in the dataset).</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">item_id_target_mean</span> <span class="o">=</span> <span class="n">all_data</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s1">&#39;item_id&#39;</span><span class="p">)[</span><span class="s1">&#39;target&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="s1">&#39;mean&#39;</span><span class="p">)</span>
+<span class="n">n_objects</span> <span class="o">=</span> <span class="n">all_data</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s1">&#39;item_id&#39;</span><span class="p">)[</span><span class="s1">&#39;target&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="s1">&#39;count&#39;</span><span class="p">)</span>
+<span class="n">all_data</span><span class="p">[</span><span class="s1">&#39;item_target_enc&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">item_id_target_mean</span> <span class="o">*</span> <span class="n">n_objects</span> <span class="o">+</span> <span class="mf">0.3343</span> <span class="o">*</span> <span class="mi">100</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="n">n_objects</span> <span class="o">+</span> <span class="mi">100</span><span class="p">)</span>
+<span class="n">all_data</span><span class="p">[</span><span class="s1">&#39;item_target_enc&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">fillna</span><span class="p">(</span><span class="mf">0.3343</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span> 
+<span class="n">encoded_feature</span> <span class="o">=</span> <span class="n">all_data</span><span class="p">[</span><span class="s1">&#39;item_target_enc&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span>
+
+<span class="n">corr</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">corrcoef</span><span class="p">(</span><span class="n">all_data</span><span class="p">[</span><span class="s1">&#39;target&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">,</span> <span class="n">encoded_feature</span><span class="p">)[</span><span class="mi">0</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">corr</span><span class="p">)</span>
+<span class="n">grader</span><span class="o">.</span><span class="n">submit_tag</span><span class="p">(</span><span class="s1">&#39;Smoothing_scheme&#39;</span><span class="p">,</span> <span class="n">corr</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>0.48181987971
+Current answer for task Smoothing_scheme is: 0.48181987971
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h1 id="4.-Expanding-mean-scheme">4. Expanding mean scheme<a class="anchor-link" href="#4.-Expanding-mean-scheme"> </a></h1>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Explained starting at 5:50 of <a href="https://www.coursera.org/learn/competitive-data-science/lecture/LGYQ2/regularization">Regularization video</a>.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Finally, implement the <em>expanding mean</em> scheme. It is basically already implemented for you in the video, but you can challenge yourself and try to implement it yourself. You will need <code>cumsum</code> and <code>cumcount</code> functions from pandas.</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">cumsum</span> <span class="o">=</span> <span class="n">all_data</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s1">&#39;item_id&#39;</span><span class="p">)[</span><span class="s1">&#39;target&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">cumsum</span><span class="p">()</span> <span class="o">-</span> <span class="n">all_data</span><span class="p">[</span><span class="s1">&#39;target&#39;</span><span class="p">]</span>
+<span class="n">cumcnt</span> <span class="o">=</span> <span class="n">all_data</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s1">&#39;item_id&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">cumcount</span><span class="p">()</span>
+<span class="n">all_data</span><span class="p">[</span><span class="s1">&#39;item_target_enc&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">cumsum</span> <span class="o">/</span> <span class="n">cumcnt</span>
+<span class="n">all_data</span><span class="p">[</span><span class="s1">&#39;item_target_enc&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">fillna</span><span class="p">(</span><span class="mf">0.3343</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span> 
+<span class="n">encoded_feature</span> <span class="o">=</span> <span class="n">all_data</span><span class="p">[</span><span class="s1">&#39;item_target_enc&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span>
+
+<span class="n">corr</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">corrcoef</span><span class="p">(</span><span class="n">all_data</span><span class="p">[</span><span class="s1">&#39;target&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">,</span> <span class="n">encoded_feature</span><span class="p">)[</span><span class="mi">0</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">corr</span><span class="p">)</span>
+<span class="n">grader</span><span class="o">.</span><span class="n">submit_tag</span><span class="p">(</span><span class="s1">&#39;Expanding_mean_scheme&#39;</span><span class="p">,</span> <span class="n">corr</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>0.502524521108
+Current answer for task Expanding_mean_scheme is: 0.502524521108
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Authorization-&amp;-Submission">Authorization &amp; Submission<a class="anchor-link" href="#Authorization-&amp;-Submission"> </a></h2><p>To submit assignment parts to Cousera platform, please, enter your e-mail and token into variables below. You can generate token on this programming assignment page. Note: Token expires 30 minutes after generation.</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">STUDENT_EMAIL</span> <span class="o">=</span><span class="s2">&quot;EMAIL HERE&quot;</span> <span class="c1"># EMAIL HERE</span>
+<span class="n">STUDENT_TOKEN</span> <span class="o">=</span><span class="s2">&quot;TOKEN HERE&quot;</span> <span class="c1"># TOKEN HERE</span>
+<span class="n">grader</span><span class="o">.</span><span class="n">status</span><span class="p">()</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>You want to submit these numbers:
+Task KFold_scheme: 0.41645907128
+Task Leave-one-out_scheme: 0.480384831129
+Task Smoothing_scheme: 0.48181987971
+Task Expanding_mean_scheme: 0.502524521108
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">grader</span><span class="o">.</span><span class="n">submit</span><span class="p">(</span><span class="n">STUDENT_EMAIL</span><span class="p">,</span> <span class="n">STUDENT_TOKEN</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>Submitted to Coursera platform. See results on assignment page!
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+</div>
+
+
+
+  </div><a class="u-url" href="/mlnotes_josua/2022/04/02/Mean-Encodings.html" hidden></a>
+</article>
+
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/mlnotes_josua/"></data>
+
+  <div class="wrapper">
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col">
+        <p class="feed-subscribe">
+          <a href="/mlnotes_josua/feed.xml">
+            <svg class="svg-icon orange">
+              <use xlink:href="/mlnotes_josua/assets/minima-social-icons.svg#rss"></use>
+            </svg><span>Subscribe</span>
+          </a>
+        </p>
+      </div>
+      <div class="footer-col">
+        <p>My notes about Artificial Intelligence(AI)</p>
+      </div>
+    </div>
+
+    <div class="social-links"><ul class="social-media-list"><li><a rel="me" href="https://github.com/naiborhujosua" target="_blank" title="naiborhujosua"><svg class="svg-icon grey"><use xlink:href="/mlnotes_josua/assets/minima-social-icons.svg#github"></use></svg></a></li><li><a rel="me" href="https://twitter.com/naiborhu_josua" target="_blank" title="naiborhu_josua"><svg class="svg-icon grey"><use xlink:href="/mlnotes_josua/assets/minima-social-icons.svg#twitter"></use></svg></a></li></ul>
+</div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>
