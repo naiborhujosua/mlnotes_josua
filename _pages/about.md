@@ -3,7 +3,6 @@ layout: page
 title: About Me
 permalink: /about/
 ---
-![]({{ site.baseurl }}/images/jos.jpeg)
 
 
 Josua is a business development analyst who turns into a self-taught Data Scientist. His interests include statistical learning,predictive modeling, network experimentation, and causal inference.
