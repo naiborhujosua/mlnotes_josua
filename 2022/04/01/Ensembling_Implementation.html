@@ -1,0 +1,1549 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="twitter:card" content="summary_large_image" /><!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>Ensembling Implementation | Everything is numbers</title>
+<meta name="generator" content="Jekyll v4.1.1" />
+<meta property="og:title" content="Ensembling Implementation" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="My notes about Artificial Intelligence(AI)" />
+<meta property="og:description" content="My notes about Artificial Intelligence(AI)" />
+<link rel="canonical" href="https://naiborhujosua.github.io/mlnotes_josua/2022/04/01/Ensembling_Implementation.html" />
+<meta property="og:url" content="https://naiborhujosua.github.io/mlnotes_josua/2022/04/01/Ensembling_Implementation.html" />
+<meta property="og:site_name" content="Everything is numbers" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2022-04-01T00:00:00-05:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="Ensembling Implementation" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","dateModified":"2022-04-01T00:00:00-05:00","datePublished":"2022-04-01T00:00:00-05:00","description":"My notes about Artificial Intelligence(AI)","headline":"Ensembling Implementation","mainEntityOfPage":{"@type":"WebPage","@id":"https://naiborhujosua.github.io/mlnotes_josua/2022/04/01/Ensembling_Implementation.html"},"url":"https://naiborhujosua.github.io/mlnotes_josua/2022/04/01/Ensembling_Implementation.html"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/mlnotes_josua/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="https://naiborhujosua.github.io/mlnotes_josua/feed.xml" title="Everything is numbers" /><!-- the google_analytics_id gets auto inserted from the config file -->
+
+
+
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-92096180-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-92096180-1');
+</script>
+
+
+<link rel="shortcut icon" type="image/x-icon" href="/mlnotes_josua/images/favicon.ico"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Primer/15.2.0/primer.css" integrity="sha512-xTz2ys4coGAOz8vuV1NcQBkgVmKhsSEtjbqyMJbBHRplFuvKIUo6xhLHpAyPt9mfR6twHJgn9OgVLuqOvjeBhg==" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css" integrity="sha512-1PKOgIY59xJ8Co8+NE6FZ+LOAZKjy+KY8iq0G4B3CyeY6wYHN3yt9PW0XpSriVlkMXe40PTKnXrLnZ9+fkDaog==" crossorigin="anonymous" />
+
+<script>
+function wrap_img(fn) {
+    if (document.attachEvent ? document.readyState === "complete" : document.readyState !== "loading") {
+        var elements = document.querySelectorAll(".post img");
+        Array.prototype.forEach.call(elements, function(el, i) {
+            if (el.getAttribute("title") && (el.className != "emoji")) {
+                const caption = document.createElement('figcaption');
+                var node = document.createTextNode(el.getAttribute("title"));
+                caption.appendChild(node);
+                const wrapper = document.createElement('figure');
+                wrapper.className = 'image';
+                el.parentNode.insertBefore(wrapper, el);
+                el.parentNode.removeChild(el);
+                wrapper.appendChild(el);
+                wrapper.appendChild(caption);
+            }
+        });
+    } else { document.addEventListener('DOMContentLoaded', fn); }
+}
+window.onload = wrap_img;
+</script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function(){
+    // add link icon to anchor tags
+    var elem = document.querySelectorAll(".anchor-link")
+    elem.forEach(e => (e.innerHTML = '<i class="fas fa-link fa-xs"></i>'));
+    });
+</script>
+</head>
+<body><header class="site-header">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/mlnotes_josua/">Everything is numbers</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"><a class="page-link" href="/mlnotes_josua/about/">About Me</a><a class="page-link" href="/mlnotes_josua/search/">Search</a><a class="page-link" href="/mlnotes_josua/categories/">Tags</a></div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">Ensembling Implementation</h1><p class="post-meta post-meta-title"><time class="dt-published" datetime="2022-04-01T00:00:00-05:00" itemprop="datePublished">
+        Apr 1, 2022
+      </time>
+       • <span class="read-time" title="Estimated read time">
+    
+    
+      9 min read
+    
+</span></p>
+
+    
+
+    
+      
+        <div class="pb-5 d-flex flex-justify-center">
+          <div class="px-2">
+
+    <a href="https://github.com/naiborhujosua/mlnotes_josua/tree/master/_notebooks/2022-04-01-Ensembling_Implementation.ipynb" role="button" target="_blank">
+<img class="notebook-badge-image" src="/mlnotes_josua/assets/badges/github.svg" alt="View On GitHub">
+    </a>
+</div>
+
+          <div class="px-2">
+    <a href="https://mybinder.org/v2/gh/naiborhujosua/mlnotes_josua/master?filepath=_notebooks%2F2022-04-01-Ensembling_Implementation.ipynb" target="_blank">
+        <img class="notebook-badge-image" src="/mlnotes_josua/assets/badges/binder.svg" alt="Open In Binder"/>
+    </a>
+</div>
+
+          <div class="px-2">
+    <a href="https://colab.research.google.com/github/naiborhujosua/mlnotes_josua/blob/master/_notebooks/2022-04-01-Ensembling_Implementation.ipynb" target="_blank">
+        <img class="notebook-badge-image" src="/mlnotes_josua/assets/badges/colab.svg" alt="Open In Colab"/>
+    </a>
+</div>
+          <div class="px-2">
+  <a href="https://deepnote.com/launch?url=https%3A%2F%2Fgithub.com%2Fnaiborhujosua%2Fmlnotes_josua%2Fblob%2Fmaster%2F_notebooks%2F2022-04-01-Ensembling_Implementation.ipynb" target="_blank">
+      <img class="notebook-badge-image" src="/mlnotes_josua/assets/badges/deepnote.svg" alt="Launch in Deepnote"/>
+  </a>
+</div>
+
+        </div>
+      </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <!--
+#################################################
+### THIS FILE WAS AUTOGENERATED! DO NOT EDIT! ###
+#################################################
+# file to edit: _notebooks/2022-04-01-Ensembling_Implementation.ipynb
+-->
+
+<div class="container" id="notebook-container">
+        
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Version 1.0.1</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span> 
+<span class="kn">import</span> <span class="nn">sklearn</span>
+<span class="kn">import</span> <span class="nn">scipy.sparse</span> 
+<span class="kn">import</span> <span class="nn">lightgbm</span> 
+
+<span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="p">[</span><span class="n">np</span><span class="p">,</span> <span class="n">pd</span><span class="p">,</span> <span class="n">scipy</span><span class="p">,</span> <span class="n">sklearn</span><span class="p">,</span> <span class="n">lightgbm</span><span class="p">]:</span>
+    <span class="nb">print</span> <span class="p">(</span><span class="n">p</span><span class="o">.</span><span class="vm">__name__</span><span class="p">,</span> <span class="n">p</span><span class="o">.</span><span class="n">__version__</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>numpy 1.13.1
+pandas 0.20.3
+scipy 0.19.1
+sklearn 0.19.0
+lightgbm 2.0.6
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><strong>Important!</strong> There is a huge chance that the assignment will be impossible to pass if the versions of <code>lighgbm</code> and <code>scikit-learn</code> are wrong. The versions being tested:</p>
+
+<pre><code>numpy 1.13.1
+pandas 0.20.3
+scipy 0.19.1
+sklearn 0.19.0
+ligthgbm 2.0.6
+
+
+</code></pre>
+<p>To install an older version of <code>lighgbm</code> you may use the following command:</p>
+
+<pre><code>pip uninstall lightgbm
+pip install lightgbm==2.0.6</code></pre>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h1 id="Ensembling">Ensembling<a class="anchor-link" href="#Ensembling"> </a></h1>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>In this programming assignment you are asked to implement two ensembling schemes: simple linear mix and stacking.</p>
+<p>We will spend several cells to load data and create feature matrix, you can scroll down this part or try to understand what's happening.</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">gc</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="o">%</span><span class="k">matplotlib</span> inline 
+
+<span class="n">pd</span><span class="o">.</span><span class="n">set_option</span><span class="p">(</span><span class="s1">&#39;display.max_rows&#39;</span><span class="p">,</span> <span class="mi">600</span><span class="p">)</span>
+<span class="n">pd</span><span class="o">.</span><span class="n">set_option</span><span class="p">(</span><span class="s1">&#39;display.max_columns&#39;</span><span class="p">,</span> <span class="mi">50</span><span class="p">)</span>
+
+<span class="kn">import</span> <span class="nn">lightgbm</span> <span class="k">as</span> <span class="nn">lgb</span>
+<span class="kn">from</span> <span class="nn">sklearn.linear_model</span> <span class="kn">import</span> <span class="n">LinearRegression</span>
+<span class="kn">from</span> <span class="nn">sklearn.metrics</span> <span class="kn">import</span> <span class="n">r2_score</span>
+<span class="kn">from</span> <span class="nn">tqdm</span> <span class="kn">import</span> <span class="n">tqdm_notebook</span>
+
+<span class="kn">from</span> <span class="nn">itertools</span> <span class="kn">import</span> <span class="n">product</span>
+
+
+<span class="k">def</span> <span class="nf">downcast_dtypes</span><span class="p">(</span><span class="n">df</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        Changes column types in the dataframe: </span>
+<span class="sd">                </span>
+<span class="sd">                `float64` type to `float32`</span>
+<span class="sd">                `int64`   type to `int32`</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    
+    <span class="c1"># Select columns to downcast</span>
+    <span class="n">float_cols</span> <span class="o">=</span> <span class="p">[</span><span class="n">c</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">df</span> <span class="k">if</span> <span class="n">df</span><span class="p">[</span><span class="n">c</span><span class="p">]</span><span class="o">.</span><span class="n">dtype</span> <span class="o">==</span> <span class="s2">&quot;float64&quot;</span><span class="p">]</span>
+    <span class="n">int_cols</span> <span class="o">=</span>   <span class="p">[</span><span class="n">c</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">df</span> <span class="k">if</span> <span class="n">df</span><span class="p">[</span><span class="n">c</span><span class="p">]</span><span class="o">.</span><span class="n">dtype</span> <span class="o">==</span> <span class="s2">&quot;int64&quot;</span><span class="p">]</span>
+    
+    <span class="c1"># Downcast</span>
+    <span class="n">df</span><span class="p">[</span><span class="n">float_cols</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">float_cols</span><span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">)</span>
+    <span class="n">df</span><span class="p">[</span><span class="n">int_cols</span><span class="p">]</span>   <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">int_cols</span><span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">int32</span><span class="p">)</span>
+    
+    <span class="k">return</span> <span class="n">df</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h1 id="Load-data-subset">Load data subset<a class="anchor-link" href="#Load-data-subset"> </a></h1>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Let's load the data from the hard drive first.</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">sales</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;../readonly/final_project_data/sales_train.csv.gz&#39;</span><span class="p">)</span>
+<span class="n">shops</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;../readonly/final_project_data/shops.csv&#39;</span><span class="p">)</span>
+<span class="n">items</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;../readonly/final_project_data/items.csv&#39;</span><span class="p">)</span>
+<span class="n">item_cats</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;../readonly/final_project_data/item_categories.csv&#39;</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>And use only 3 shops for simplicity.</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">sales</span> <span class="o">=</span> <span class="n">sales</span><span class="p">[</span><span class="n">sales</span><span class="p">[</span><span class="s1">&#39;shop_id&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">isin</span><span class="p">([</span><span class="mi">26</span><span class="p">,</span> <span class="mi">27</span><span class="p">,</span> <span class="mi">28</span><span class="p">])]</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h1 id="Get-a-feature-matrix">Get a feature matrix<a class="anchor-link" href="#Get-a-feature-matrix"> </a></h1>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>We now need to prepare the features. This part is all implemented for you.</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">index_cols</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;shop_id&#39;</span><span class="p">,</span> <span class="s1">&#39;item_id&#39;</span><span class="p">,</span> <span class="s1">&#39;date_block_num&#39;</span><span class="p">]</span>
+
+<span class="c1"># For every month we create a grid from all shops/items combinations from that month</span>
+<span class="n">grid</span> <span class="o">=</span> <span class="p">[]</span> 
+<span class="k">for</span> <span class="n">block_num</span> <span class="ow">in</span> <span class="n">sales</span><span class="p">[</span><span class="s1">&#39;date_block_num&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">unique</span><span class="p">():</span>
+    <span class="n">cur_shops</span> <span class="o">=</span> <span class="n">sales</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">sales</span><span class="p">[</span><span class="s1">&#39;date_block_num&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="n">block_num</span><span class="p">,</span> <span class="s1">&#39;shop_id&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">unique</span><span class="p">()</span>
+    <span class="n">cur_items</span> <span class="o">=</span> <span class="n">sales</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">sales</span><span class="p">[</span><span class="s1">&#39;date_block_num&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="n">block_num</span><span class="p">,</span> <span class="s1">&#39;item_id&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">unique</span><span class="p">()</span>
+    <span class="n">grid</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">product</span><span class="p">(</span><span class="o">*</span><span class="p">[</span><span class="n">cur_shops</span><span class="p">,</span> <span class="n">cur_items</span><span class="p">,</span> <span class="p">[</span><span class="n">block_num</span><span class="p">]])),</span><span class="n">dtype</span><span class="o">=</span><span class="s1">&#39;int32&#39;</span><span class="p">))</span>
+
+<span class="c1"># Turn the grid into a dataframe</span>
+<span class="n">grid</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">vstack</span><span class="p">(</span><span class="n">grid</span><span class="p">),</span> <span class="n">columns</span> <span class="o">=</span> <span class="n">index_cols</span><span class="p">,</span><span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">int32</span><span class="p">)</span>
+
+<span class="c1"># Groupby data to get shop-item-month aggregates</span>
+<span class="n">gb</span> <span class="o">=</span> <span class="n">sales</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="n">index_cols</span><span class="p">,</span><span class="n">as_index</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span><span class="o">.</span><span class="n">agg</span><span class="p">({</span><span class="s1">&#39;item_cnt_day&#39;</span><span class="p">:{</span><span class="s1">&#39;target&#39;</span><span class="p">:</span><span class="s1">&#39;sum&#39;</span><span class="p">}})</span>
+<span class="c1"># Fix column names</span>
+<span class="n">gb</span><span class="o">.</span><span class="n">columns</span> <span class="o">=</span> <span class="p">[</span><span class="n">col</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">if</span> <span class="n">col</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">==</span><span class="s1">&#39;&#39;</span> <span class="k">else</span> <span class="n">col</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="n">gb</span><span class="o">.</span><span class="n">columns</span><span class="o">.</span><span class="n">values</span><span class="p">]</span> 
+<span class="c1"># Join it to the grid</span>
+<span class="n">all_data</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span><span class="n">grid</span><span class="p">,</span> <span class="n">gb</span><span class="p">,</span> <span class="n">how</span><span class="o">=</span><span class="s1">&#39;left&#39;</span><span class="p">,</span> <span class="n">on</span><span class="o">=</span><span class="n">index_cols</span><span class="p">)</span><span class="o">.</span><span class="n">fillna</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+
+<span class="c1"># Same as above but with shop-month aggregates</span>
+<span class="n">gb</span> <span class="o">=</span> <span class="n">sales</span><span class="o">.</span><span class="n">groupby</span><span class="p">([</span><span class="s1">&#39;shop_id&#39;</span><span class="p">,</span> <span class="s1">&#39;date_block_num&#39;</span><span class="p">],</span><span class="n">as_index</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span><span class="o">.</span><span class="n">agg</span><span class="p">({</span><span class="s1">&#39;item_cnt_day&#39;</span><span class="p">:{</span><span class="s1">&#39;target_shop&#39;</span><span class="p">:</span><span class="s1">&#39;sum&#39;</span><span class="p">}})</span>
+<span class="n">gb</span><span class="o">.</span><span class="n">columns</span> <span class="o">=</span> <span class="p">[</span><span class="n">col</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">if</span> <span class="n">col</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">==</span><span class="s1">&#39;&#39;</span> <span class="k">else</span> <span class="n">col</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="n">gb</span><span class="o">.</span><span class="n">columns</span><span class="o">.</span><span class="n">values</span><span class="p">]</span>
+<span class="n">all_data</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span><span class="n">all_data</span><span class="p">,</span> <span class="n">gb</span><span class="p">,</span> <span class="n">how</span><span class="o">=</span><span class="s1">&#39;left&#39;</span><span class="p">,</span> <span class="n">on</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;shop_id&#39;</span><span class="p">,</span> <span class="s1">&#39;date_block_num&#39;</span><span class="p">])</span><span class="o">.</span><span class="n">fillna</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+
+<span class="c1"># Same as above but with item-month aggregates</span>
+<span class="n">gb</span> <span class="o">=</span> <span class="n">sales</span><span class="o">.</span><span class="n">groupby</span><span class="p">([</span><span class="s1">&#39;item_id&#39;</span><span class="p">,</span> <span class="s1">&#39;date_block_num&#39;</span><span class="p">],</span><span class="n">as_index</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span><span class="o">.</span><span class="n">agg</span><span class="p">({</span><span class="s1">&#39;item_cnt_day&#39;</span><span class="p">:{</span><span class="s1">&#39;target_item&#39;</span><span class="p">:</span><span class="s1">&#39;sum&#39;</span><span class="p">}})</span>
+<span class="n">gb</span><span class="o">.</span><span class="n">columns</span> <span class="o">=</span> <span class="p">[</span><span class="n">col</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">if</span> <span class="n">col</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;&#39;</span> <span class="k">else</span> <span class="n">col</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="n">gb</span><span class="o">.</span><span class="n">columns</span><span class="o">.</span><span class="n">values</span><span class="p">]</span>
+<span class="n">all_data</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span><span class="n">all_data</span><span class="p">,</span> <span class="n">gb</span><span class="p">,</span> <span class="n">how</span><span class="o">=</span><span class="s1">&#39;left&#39;</span><span class="p">,</span> <span class="n">on</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;item_id&#39;</span><span class="p">,</span> <span class="s1">&#39;date_block_num&#39;</span><span class="p">])</span><span class="o">.</span><span class="n">fillna</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+
+<span class="c1"># Downcast dtypes from 64 to 32 bit to save memory</span>
+<span class="n">all_data</span> <span class="o">=</span> <span class="n">downcast_dtypes</span><span class="p">(</span><span class="n">all_data</span><span class="p">)</span>
+<span class="k">del</span> <span class="n">grid</span><span class="p">,</span> <span class="n">gb</span> 
+<span class="n">gc</span><span class="o">.</span><span class="n">collect</span><span class="p">();</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stderr output_text">
+<pre>/opt/conda/lib/python3.6/site-packages/pandas/core/groupby.py:4036: FutureWarning: using a dict with renaming is deprecated and will be removed in a future version
+  return super(DataFrameGroupBy, self).aggregate(arg, *args, **kwargs)
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>After creating a grid, we can calculate some features. We will use lags from [1, 2, 3, 4, 5, 12] months ago.</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">cols_to_rename</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">all_data</span><span class="o">.</span><span class="n">columns</span><span class="o">.</span><span class="n">difference</span><span class="p">(</span><span class="n">index_cols</span><span class="p">))</span> 
+
+<span class="n">shift_range</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">12</span><span class="p">]</span>
+
+<span class="k">for</span> <span class="n">month_shift</span> <span class="ow">in</span> <span class="n">tqdm_notebook</span><span class="p">(</span><span class="n">shift_range</span><span class="p">):</span>
+    <span class="n">train_shift</span> <span class="o">=</span> <span class="n">all_data</span><span class="p">[</span><span class="n">index_cols</span> <span class="o">+</span> <span class="n">cols_to_rename</span><span class="p">]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+    
+    <span class="n">train_shift</span><span class="p">[</span><span class="s1">&#39;date_block_num&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">train_shift</span><span class="p">[</span><span class="s1">&#39;date_block_num&#39;</span><span class="p">]</span> <span class="o">+</span> <span class="n">month_shift</span>
+    
+    <span class="n">foo</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="s1">&#39;</span><span class="si">{}</span><span class="s1">_lag_</span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">month_shift</span><span class="p">)</span> <span class="k">if</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">cols_to_rename</span> <span class="k">else</span> <span class="n">x</span>
+    <span class="n">train_shift</span> <span class="o">=</span> <span class="n">train_shift</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="n">foo</span><span class="p">)</span>
+
+    <span class="n">all_data</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span><span class="n">all_data</span><span class="p">,</span> <span class="n">train_shift</span><span class="p">,</span> <span class="n">on</span><span class="o">=</span><span class="n">index_cols</span><span class="p">,</span> <span class="n">how</span><span class="o">=</span><span class="s1">&#39;left&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">fillna</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+
+<span class="k">del</span> <span class="n">train_shift</span>
+
+<span class="c1"># Don&#39;t use old data from year 2013</span>
+<span class="n">all_data</span> <span class="o">=</span> <span class="n">all_data</span><span class="p">[</span><span class="n">all_data</span><span class="p">[</span><span class="s1">&#39;date_block_num&#39;</span><span class="p">]</span> <span class="o">&gt;=</span> <span class="mi">12</span><span class="p">]</span> 
+
+<span class="c1"># List of all lagged features</span>
+<span class="n">fit_cols</span> <span class="o">=</span> <span class="p">[</span><span class="n">col</span> <span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="n">all_data</span><span class="o">.</span><span class="n">columns</span> <span class="k">if</span> <span class="n">col</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="ow">in</span> <span class="p">[</span><span class="nb">str</span><span class="p">(</span><span class="n">item</span><span class="p">)</span> <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">shift_range</span><span class="p">]]</span> 
+<span class="c1"># We will drop these at fitting stage</span>
+<span class="n">to_drop_cols</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">all_data</span><span class="o">.</span><span class="n">columns</span><span class="p">))</span> <span class="o">-</span> <span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="n">fit_cols</span><span class="p">)</span><span class="o">|</span><span class="nb">set</span><span class="p">(</span><span class="n">index_cols</span><span class="p">)))</span> <span class="o">+</span> <span class="p">[</span><span class="s1">&#39;date_block_num&#39;</span><span class="p">]</span> 
+
+<span class="c1"># Category for each item</span>
+<span class="n">item_category_mapping</span> <span class="o">=</span> <span class="n">items</span><span class="p">[[</span><span class="s1">&#39;item_id&#39;</span><span class="p">,</span><span class="s1">&#39;item_category_id&#39;</span><span class="p">]]</span><span class="o">.</span><span class="n">drop_duplicates</span><span class="p">()</span>
+
+<span class="n">all_data</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span><span class="n">all_data</span><span class="p">,</span> <span class="n">item_category_mapping</span><span class="p">,</span> <span class="n">how</span><span class="o">=</span><span class="s1">&#39;left&#39;</span><span class="p">,</span> <span class="n">on</span><span class="o">=</span><span class="s1">&#39;item_id&#39;</span><span class="p">)</span>
+<span class="n">all_data</span> <span class="o">=</span> <span class="n">downcast_dtypes</span><span class="p">(</span><span class="n">all_data</span><span class="p">)</span>
+<span class="n">gc</span><span class="o">.</span><span class="n">collect</span><span class="p">();</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>To this end, we've created a feature matrix. It is stored in <code>all_data</code> variable. Take a look:</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">all_data</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+<div class="output_html rendered_html output_subarea output_execute_result">
+<div>
+<style>
+    .dataframe thead tr:only-child th {
+        text-align: right;
+    }
+
+    .dataframe thead th {
+        text-align: left;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>shop_id</th>
+      <th>item_id</th>
+      <th>date_block_num</th>
+      <th>target</th>
+      <th>target_shop</th>
+      <th>target_item</th>
+      <th>target_lag_1</th>
+      <th>target_item_lag_1</th>
+      <th>target_shop_lag_1</th>
+      <th>target_lag_2</th>
+      <th>target_item_lag_2</th>
+      <th>target_shop_lag_2</th>
+      <th>target_lag_3</th>
+      <th>target_item_lag_3</th>
+      <th>target_shop_lag_3</th>
+      <th>target_lag_4</th>
+      <th>target_item_lag_4</th>
+      <th>target_shop_lag_4</th>
+      <th>target_lag_5</th>
+      <th>target_item_lag_5</th>
+      <th>target_shop_lag_5</th>
+      <th>target_lag_12</th>
+      <th>target_item_lag_12</th>
+      <th>target_shop_lag_12</th>
+      <th>item_category_id</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>28</td>
+      <td>10994</td>
+      <td>12</td>
+      <td>1.0</td>
+      <td>6949.0</td>
+      <td>1.0</td>
+      <td>0.0</td>
+      <td>1.0</td>
+      <td>8499.0</td>
+      <td>0.0</td>
+      <td>1.0</td>
+      <td>6454.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>37</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>28</td>
+      <td>10992</td>
+      <td>12</td>
+      <td>3.0</td>
+      <td>6949.0</td>
+      <td>4.0</td>
+      <td>3.0</td>
+      <td>7.0</td>
+      <td>8499.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>1.0</td>
+      <td>7521.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>37</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>28</td>
+      <td>10991</td>
+      <td>12</td>
+      <td>1.0</td>
+      <td>6949.0</td>
+      <td>5.0</td>
+      <td>1.0</td>
+      <td>3.0</td>
+      <td>8499.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>1.0</td>
+      <td>5609.0</td>
+      <td>0.0</td>
+      <td>2.0</td>
+      <td>6753.0</td>
+      <td>2.0</td>
+      <td>4.0</td>
+      <td>7521.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>40</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>28</td>
+      <td>10988</td>
+      <td>12</td>
+      <td>1.0</td>
+      <td>6949.0</td>
+      <td>2.0</td>
+      <td>2.0</td>
+      <td>5.0</td>
+      <td>8499.0</td>
+      <td>4.0</td>
+      <td>5.0</td>
+      <td>6454.0</td>
+      <td>5.0</td>
+      <td>6.0</td>
+      <td>5609.0</td>
+      <td>0.0</td>
+      <td>2.0</td>
+      <td>6753.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>40</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>28</td>
+      <td>11002</td>
+      <td>12</td>
+      <td>1.0</td>
+      <td>6949.0</td>
+      <td>1.0</td>
+      <td>0.0</td>
+      <td>1.0</td>
+      <td>8499.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>40</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h1 id="Train/test-split">Train/test split<a class="anchor-link" href="#Train/test-split"> </a></h1>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>For a sake of the programming assignment, let's artificially split the data into train and test. We will treat last month data as the test set.</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">dates</span> <span class="o">=</span> <span class="n">all_data</span><span class="p">[</span><span class="s1">&#39;date_block_num&#39;</span><span class="p">]</span>
+
+<span class="n">last_block</span> <span class="o">=</span> <span class="n">dates</span><span class="o">.</span><span class="n">max</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Test `date_block_num` is </span><span class="si">%d</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="n">last_block</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>Test `date_block_num` is 33
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">dates_train</span> <span class="o">=</span> <span class="n">dates</span><span class="p">[</span><span class="n">dates</span> <span class="o">&lt;</span>  <span class="n">last_block</span><span class="p">]</span>
+<span class="n">dates_test</span>  <span class="o">=</span> <span class="n">dates</span><span class="p">[</span><span class="n">dates</span> <span class="o">==</span> <span class="n">last_block</span><span class="p">]</span>
+
+<span class="n">X_train</span> <span class="o">=</span> <span class="n">all_data</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">dates</span> <span class="o">&lt;</span>  <span class="n">last_block</span><span class="p">]</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">to_drop_cols</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">X_test</span> <span class="o">=</span>  <span class="n">all_data</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">dates</span> <span class="o">==</span> <span class="n">last_block</span><span class="p">]</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">to_drop_cols</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+
+<span class="n">y_train</span> <span class="o">=</span> <span class="n">all_data</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">dates</span> <span class="o">&lt;</span>  <span class="n">last_block</span><span class="p">,</span> <span class="s1">&#39;target&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span>
+<span class="n">y_test</span> <span class="o">=</span>  <span class="n">all_data</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">dates</span> <span class="o">==</span> <span class="n">last_block</span><span class="p">,</span> <span class="s1">&#39;target&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h1 id="First-level-models">First level models<a class="anchor-link" href="#First-level-models"> </a></h1>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>You need to implement a basic stacking scheme. We have a time component here, so we will use <strong><em>scheme f)</em></strong> from the reading material. Recall, that we always use first level models to build two datasets: test meta-features and 2-nd level train-metafetures. Let's see how we get test meta-features first.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Test-meta-features">Test meta-features<a class="anchor-link" href="#Test-meta-features"> </a></h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Firts, we will run <em>linear regression</em> on numeric columns and get predictions for the last month.</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">lr</span> <span class="o">=</span> <span class="n">LinearRegression</span><span class="p">()</span>
+<span class="n">lr</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="o">.</span><span class="n">values</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
+<span class="n">pred_lr</span> <span class="o">=</span> <span class="n">lr</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_test</span><span class="o">.</span><span class="n">values</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Test R-squared for linreg is </span><span class="si">%f</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="n">r2_score</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">pred_lr</span><span class="p">))</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>Test R-squared for linreg is 0.743180
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>And the we run <em>LightGBM</em>.</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">lgb_params</span> <span class="o">=</span> <span class="p">{</span>
+               <span class="s1">&#39;feature_fraction&#39;</span><span class="p">:</span> <span class="mf">0.75</span><span class="p">,</span>
+               <span class="s1">&#39;metric&#39;</span><span class="p">:</span> <span class="s1">&#39;rmse&#39;</span><span class="p">,</span>
+               <span class="s1">&#39;nthread&#39;</span><span class="p">:</span><span class="mi">1</span><span class="p">,</span> 
+               <span class="s1">&#39;min_data_in_leaf&#39;</span><span class="p">:</span> <span class="mi">2</span><span class="o">**</span><span class="mi">7</span><span class="p">,</span> 
+               <span class="s1">&#39;bagging_fraction&#39;</span><span class="p">:</span> <span class="mf">0.75</span><span class="p">,</span> 
+               <span class="s1">&#39;learning_rate&#39;</span><span class="p">:</span> <span class="mf">0.03</span><span class="p">,</span> 
+               <span class="s1">&#39;objective&#39;</span><span class="p">:</span> <span class="s1">&#39;mse&#39;</span><span class="p">,</span> 
+               <span class="s1">&#39;bagging_seed&#39;</span><span class="p">:</span> <span class="mi">2</span><span class="o">**</span><span class="mi">7</span><span class="p">,</span> 
+               <span class="s1">&#39;num_leaves&#39;</span><span class="p">:</span> <span class="mi">2</span><span class="o">**</span><span class="mi">7</span><span class="p">,</span>
+               <span class="s1">&#39;bagging_freq&#39;</span><span class="p">:</span><span class="mi">1</span><span class="p">,</span>
+               <span class="s1">&#39;verbose&#39;</span><span class="p">:</span><span class="mi">0</span> 
+              <span class="p">}</span>
+
+<span class="n">model</span> <span class="o">=</span> <span class="n">lgb</span><span class="o">.</span><span class="n">train</span><span class="p">(</span><span class="n">lgb_params</span><span class="p">,</span> <span class="n">lgb</span><span class="o">.</span><span class="n">Dataset</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="n">y_train</span><span class="p">),</span> <span class="mi">100</span><span class="p">)</span>
+<span class="n">pred_lgb</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_test</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Test R-squared for LightGBM is </span><span class="si">%f</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="n">r2_score</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">pred_lgb</span><span class="p">))</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>Test R-squared for LightGBM is 0.738391
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Finally, concatenate test predictions to get test meta-features.</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">X_test_level2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">c_</span><span class="p">[</span><span class="n">pred_lr</span><span class="p">,</span> <span class="n">pred_lgb</span><span class="p">]</span> 
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Train-meta-features">Train meta-features<a class="anchor-link" href="#Train-meta-features"> </a></h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><strong>Now it is your turn to write the code</strong>. You need to implement <strong><em>scheme f)</em></strong> from the reading material. Here, we will use duration <strong>T</strong> equal to month and <strong>M=15</strong>.</p>
+<p>That is, you need to get predictions (meta-features) from <em>linear regression</em> and <em>LightGBM</em> for months 27, 28, 29, 30, 31, 32. Use the same parameters as in above models.</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">dates_train_level2</span> <span class="o">=</span> <span class="n">dates_train</span><span class="p">[</span><span class="n">dates_train</span><span class="o">.</span><span class="n">isin</span><span class="p">([</span><span class="mi">27</span><span class="p">,</span> <span class="mi">28</span><span class="p">,</span> <span class="mi">29</span><span class="p">,</span> <span class="mi">30</span><span class="p">,</span> <span class="mi">31</span><span class="p">,</span> <span class="mi">32</span><span class="p">])]</span>
+
+<span class="c1"># That is how we get target for the 2nd level dataset</span>
+<span class="n">y_train_level2</span> <span class="o">=</span> <span class="n">y_train</span><span class="p">[</span><span class="n">dates_train</span><span class="o">.</span><span class="n">isin</span><span class="p">([</span><span class="mi">27</span><span class="p">,</span> <span class="mi">28</span><span class="p">,</span> <span class="mi">29</span><span class="p">,</span> <span class="mi">30</span><span class="p">,</span> <span class="mi">31</span><span class="p">,</span> <span class="mi">32</span><span class="p">])]</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">X_train_level2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">([</span><span class="n">y_train_level2</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="mi">2</span><span class="p">])</span>
+
+<span class="c1"># Now fill `X_train_level2` with metafeatures</span>
+<span class="k">for</span> <span class="n">cur_block_num</span> <span class="ow">in</span> <span class="p">[</span><span class="mi">27</span><span class="p">,</span> <span class="mi">28</span><span class="p">,</span> <span class="mi">29</span><span class="p">,</span> <span class="mi">30</span><span class="p">,</span> <span class="mi">31</span><span class="p">,</span> <span class="mi">32</span><span class="p">]:</span>
+    
+    <span class="nb">print</span><span class="p">(</span><span class="n">cur_block_num</span><span class="p">)</span>
+    
+    <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        1. Split `X_train` into parts</span>
+<span class="sd">           Remember, that corresponding dates are stored in `dates_train` </span>
+<span class="sd">        2. Fit linear regression </span>
+<span class="sd">        3. Fit LightGBM and put predictions          </span>
+<span class="sd">        4. Store predictions from 2. and 3. in the right place of `X_train_level2`. </span>
+<span class="sd">           You can use `dates_train_level2` for it</span>
+<span class="sd">           Make sure the order of the meta-features is the same as in `X_test_level2`</span>
+<span class="sd">    &#39;&#39;&#39;</span>      
+    
+    <span class="c1">#  YOUR CODE GOES HERE</span>
+    <span class="n">X_train_meta</span> <span class="o">=</span> <span class="n">all_data</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">dates</span> <span class="o">&lt;</span>  <span class="n">cur_block_num</span><span class="p">]</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">to_drop_cols</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">X_test_meta</span> <span class="o">=</span>  <span class="n">all_data</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">dates</span> <span class="o">==</span> <span class="n">cur_block_num</span><span class="p">]</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">to_drop_cols</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+
+    <span class="n">y_train_meta</span> <span class="o">=</span> <span class="n">all_data</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">dates</span> <span class="o">&lt;</span>  <span class="n">cur_block_num</span><span class="p">,</span> <span class="s1">&#39;target&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span>
+    <span class="n">y_test_meta</span> <span class="o">=</span>  <span class="n">all_data</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">dates</span> <span class="o">==</span> <span class="n">cur_block_num</span><span class="p">,</span> <span class="s1">&#39;target&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span>
+    
+    <span class="n">lr</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train_meta</span><span class="o">.</span><span class="n">values</span><span class="p">,</span> <span class="n">y_train_meta</span><span class="p">)</span>
+    <span class="n">X_train_level2</span><span class="p">[</span><span class="n">dates_train_level2</span> <span class="o">==</span> <span class="n">cur_block_num</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">lr</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_test_meta</span><span class="o">.</span><span class="n">values</span><span class="p">)</span>
+    
+    <span class="n">model</span> <span class="o">=</span> <span class="n">lgb</span><span class="o">.</span><span class="n">train</span><span class="p">(</span><span class="n">lgb_params</span><span class="p">,</span> <span class="n">lgb</span><span class="o">.</span><span class="n">Dataset</span><span class="p">(</span><span class="n">X_train_meta</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="n">y_train_meta</span><span class="p">),</span> <span class="mi">100</span><span class="p">)</span>
+    <span class="n">X_train_level2</span><span class="p">[</span><span class="n">dates_train_level2</span> <span class="o">==</span> <span class="n">cur_block_num</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_test_meta</span><span class="p">)</span>
+    
+    
+<span class="c1"># Sanity check</span>
+<span class="k">assert</span> <span class="n">np</span><span class="o">.</span><span class="n">all</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">isclose</span><span class="p">(</span><span class="n">X_train_level2</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">),</span> <span class="p">[</span> <span class="mf">1.50148988</span><span class="p">,</span>  <span class="mf">1.38811989</span><span class="p">]))</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>27
+28
+29
+30
+31
+32
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Remember, the ensembles work best, when first level models are diverse. We can qualitatively analyze the diversity by examinig <em>scatter plot</em> between the two metafeatures. Plot the scatter plot below.</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">X_train_level2</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">X_train_level2</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">])</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>&lt;matplotlib.collections.PathCollection at 0x7fa38c41ca58&gt;</pre>
+</div>
+
+</div>
+
+<div class="output_area">
+
+
+
+<div class="output_png output_subarea ">
+<img src="data:image/png;base64,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
+CnflgAAAAABJRU5ErkJggg==
+" />
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h1 id="Ensembling">Ensembling<a class="anchor-link" href="#Ensembling"> </a></h1>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Now, when the meta-features are created, we can ensemble our first level models.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Simple-convex-mix">Simple convex mix<a class="anchor-link" href="#Simple-convex-mix"> </a></h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Let's start with simple linear convex mix:</p>
+$$
+mix= \alpha\cdot\text{linreg_prediction}+(1-\alpha)\cdot\text{lgb_prediction}
+$$<p>We need to find an optimal $\alpha$. And it is very easy, as it is feasible to do grid search. Next, find the optimal $\alpha$ out of <code>alphas_to_try</code> array. Remember, that you need to use train meta-features (not test) when searching for $\alpha$.</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">alphas_to_try</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1001</span><span class="p">)</span>
+
+<span class="c1"># YOUR CODE GOES HERE</span>
+<span class="n">r2_scores</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">r2_score</span><span class="p">(</span><span class="n">y_train_level2</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">X_train_level2</span><span class="p">,</span> <span class="p">[</span><span class="n">alpha</span><span class="p">,</span> <span class="mi">1</span> <span class="o">-</span> <span class="n">alpha</span><span class="p">]))</span> <span class="k">for</span> <span class="n">alpha</span> <span class="ow">in</span> <span class="n">alphas_to_try</span><span class="p">])</span>
+<span class="n">best_alpha</span> <span class="o">=</span> <span class="n">alphas_to_try</span><span class="p">[</span><span class="n">r2_scores</span><span class="o">.</span><span class="n">argmax</span><span class="p">()]</span> <span class="c1"># YOUR CODE GOES HERE</span>
+<span class="n">r2_train_simple_mix</span> <span class="o">=</span> <span class="n">r2_scores</span><span class="o">.</span><span class="n">max</span><span class="p">()</span> <span class="c1"># YOUR CODE GOES HERE</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Best alpha: </span><span class="si">%f</span><span class="s1">; Corresponding r2 score on train: </span><span class="si">%f</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">best_alpha</span><span class="p">,</span> <span class="n">r2_train_simple_mix</span><span class="p">))</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>Best alpha: 0.765000; Corresponding r2 score on train: 0.627255
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Now use the $\alpha$ you've found to compute predictions for the test set</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">test_preds</span> <span class="o">=</span> <span class="n">best_alpha</span> <span class="o">*</span> <span class="n">pred_lr</span> <span class="o">+</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">best_alpha</span><span class="p">)</span> <span class="o">*</span> <span class="n">pred_lgb</span> <span class="c1"># YOUR CODE GOES HERE</span>
+<span class="n">r2_test_simple_mix</span> <span class="o">=</span> <span class="n">r2_score</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">test_preds</span><span class="p">)</span> <span class="c1"># YOUR CODE GOES HERE</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Test R-squared for simple mix is </span><span class="si">%f</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="n">r2_test_simple_mix</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>Test R-squared for simple mix is 0.781144
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Stacking">Stacking<a class="anchor-link" href="#Stacking"> </a></h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Now, we will try a more advanced ensembling technique. Fit a linear regression model to the meta-features. Use the same parameters as in the model above.</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">lr</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train_level2</span><span class="p">,</span> <span class="n">y_train_level2</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>LinearRegression(copy_X=True, fit_intercept=True, n_jobs=1, normalize=False)</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Compute R-squared on the train and test sets.</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">train_preds</span> <span class="o">=</span> <span class="n">lr</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_train_level2</span><span class="p">)</span> <span class="c1"># YOUR CODE GOES HERE</span>
+<span class="n">r2_train_stacking</span> <span class="o">=</span> <span class="n">r2_score</span><span class="p">(</span><span class="n">y_train_level2</span><span class="p">,</span> <span class="n">train_preds</span><span class="p">)</span> <span class="c1"># YOUR CODE GOES HERE</span>
+
+<span class="n">test_preds</span> <span class="o">=</span> <span class="n">lr</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">vstack</span><span class="p">((</span><span class="n">pred_lr</span><span class="p">,</span> <span class="n">pred_lgb</span><span class="p">))</span><span class="o">.</span><span class="n">T</span><span class="p">)</span> <span class="c1"># YOUR CODE GOES HERE</span>
+<span class="n">r2_test_stacking</span> <span class="o">=</span> <span class="n">r2_score</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">test_preds</span><span class="p">)</span> <span class="c1"># YOUR CODE GOES HERE</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Train R-squared for stacking is </span><span class="si">%f</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="n">r2_train_stacking</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Test  R-squared for stacking is </span><span class="si">%f</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="n">r2_test_stacking</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>Train R-squared for stacking is 0.632176
+Test  R-squared for stacking is 0.771297
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Interesting, that the score turned out to be lower than in previous method. Although the model is very simple (just 3 parameters) and, in fact, mixes predictions linearly, it looks like it managed to overfit. <strong>Examine and compare</strong> train and test scores for the two methods.</p>
+<p>And of course this particular case does not mean simple mix is always better than stacking.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>We all done! Submit everything we need to the grader now.</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn">grader</span> <span class="kn">import</span> <span class="n">Grader</span>
+<span class="n">grader</span> <span class="o">=</span> <span class="n">Grader</span><span class="p">()</span>
+
+<span class="n">grader</span><span class="o">.</span><span class="n">submit_tag</span><span class="p">(</span><span class="s1">&#39;best_alpha&#39;</span><span class="p">,</span> <span class="n">best_alpha</span><span class="p">)</span>
+
+<span class="n">grader</span><span class="o">.</span><span class="n">submit_tag</span><span class="p">(</span><span class="s1">&#39;r2_train_simple_mix&#39;</span><span class="p">,</span> <span class="n">r2_train_simple_mix</span><span class="p">)</span>
+<span class="n">grader</span><span class="o">.</span><span class="n">submit_tag</span><span class="p">(</span><span class="s1">&#39;r2_test_simple_mix&#39;</span><span class="p">,</span>  <span class="n">r2_test_simple_mix</span><span class="p">)</span>
+
+<span class="n">grader</span><span class="o">.</span><span class="n">submit_tag</span><span class="p">(</span><span class="s1">&#39;r2_train_stacking&#39;</span><span class="p">,</span> <span class="n">r2_train_stacking</span><span class="p">)</span>
+<span class="n">grader</span><span class="o">.</span><span class="n">submit_tag</span><span class="p">(</span><span class="s1">&#39;r2_test_stacking&#39;</span><span class="p">,</span>  <span class="n">r2_test_stacking</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>Current answer for task best_alpha is: 0.765
+Current answer for task r2_train_simple_mix is: 0.627255043446
+Current answer for task r2_test_simple_mix is: 0.781144169579
+Current answer for task r2_train_stacking is: 0.632175561459
+Current answer for task r2_test_stacking is: 0.771297132342
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">STUDENT_EMAIL</span> <span class="o">=</span><span class="s2">&quot;EMAIL HERE&quot;</span> <span class="c1"># EMAIL HERE</span>
+<span class="n">STUDENT_TOKEN</span> <span class="o">=</span><span class="s2">&quot; TOKEN HERE&quot;</span><span class="c1"># TOKEN HERE</span>
+<span class="n">grader</span><span class="o">.</span><span class="n">status</span><span class="p">()</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>You want to submit these numbers:
+Task best_alpha: 0.765
+Task r2_train_simple_mix: 0.627255043446
+Task r2_test_simple_mix: 0.781144169579
+Task r2_train_stacking: 0.632175561459
+Task r2_test_stacking: 0.771297132342
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">grader</span><span class="o">.</span><span class="n">submit</span><span class="p">(</span><span class="n">STUDENT_EMAIL</span><span class="p">,</span> <span class="n">STUDENT_TOKEN</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>Submitted to Coursera platform. See results on assignment page!
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+</div>
+
+
+
+  </div><a class="u-url" href="/mlnotes_josua/2022/04/01/Ensembling_Implementation.html" hidden></a>
+</article>
+
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/mlnotes_josua/"></data>
+
+  <div class="wrapper">
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col">
+        <p class="feed-subscribe">
+          <a href="/mlnotes_josua/feed.xml">
+            <svg class="svg-icon orange">
+              <use xlink:href="/mlnotes_josua/assets/minima-social-icons.svg#rss"></use>
+            </svg><span>Subscribe</span>
+          </a>
+        </p>
+      </div>
+      <div class="footer-col">
+        <p>My notes about Artificial Intelligence(AI)</p>
+      </div>
+    </div>
+
+    <div class="social-links"><ul class="social-media-list"><li><a rel="me" href="https://github.com/naiborhujosua" target="_blank" title="naiborhujosua"><svg class="svg-icon grey"><use xlink:href="/mlnotes_josua/assets/minima-social-icons.svg#github"></use></svg></a></li><li><a rel="me" href="https://twitter.com/naiborhu_josua" target="_blank" title="naiborhu_josua"><svg class="svg-icon grey"><use xlink:href="/mlnotes_josua/assets/minima-social-icons.svg#twitter"></use></svg></a></li></ul>
+</div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>
