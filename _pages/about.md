@@ -14,3 +14,7 @@ For more, please reach out on [LinkedIn!](https://www.linkedin.com/in/josuanaibo
 
 #### View [my certificates in Data Science](https://www.coursera.org/user/af5ba3cc942b970cd9bf0a22bbf3b0d3)
 
+## Books I am currenly reading
+
+{% twitter https://twitter.com/tunguz/status/1506657625026760705/photo/1 %}
+
