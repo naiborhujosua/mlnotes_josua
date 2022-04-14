@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd" xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 <url>
+<loc>https://naiborhujosua.github.io/mlnotes_josua/pytorch/neural%20network/activation%20function/loss/2022/03/23/NN-for-new-user-of-Pytorch.html</loc>
+<lastmod>2022-03-23T00:00:00-05:00</lastmod>
+</url>
+<url>
 <loc>https://naiborhujosua.github.io/mlnotes_josua/2022/03/30/data-visualization-challenge.html</loc>
 <lastmod>2022-03-30T00:00:00-05:00</lastmod>
 </url>
