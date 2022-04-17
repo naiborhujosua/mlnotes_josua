@@ -1,13 +1,11 @@
+---
+toc: true
+layout: post
+description: The implementation of statistics in A/B testing.
+categories: [abtesting,statistics]
+title: My key takeaways of reading Trustworthy Online Controlled Experiments Book
+---
 
-# "My key takeaways of reading Trustworthy Online Controlled Experiments Book"
-> Implementations of statistics in A/B testing
-
-- toc:true- branch: master
-- badges: true
-- comments: true
-- author: josua naiborhu
-- categories: [abtesting, statistics]
-- 
 > twitter: https://twitter.com/KirkDBorne/status/1240781773921017857
 
 This article contains about A/B testing, make sure the reader understand fundamental concepts about control and treatment, p-values, confidence interval, 
