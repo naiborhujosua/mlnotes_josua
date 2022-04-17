@@ -9,8 +9,8 @@ comments: true
 
 {% twitter https://twitter.com/ronnyk/status/1410018546747285508 %}
 
-This article contains about A/B testing, make sure the reader understands fundamental concepts about control and treatment, p-values, confidence interval, 
-statistical significance, practical significance, randomization, sample, and population in order to get the idea about A/B testing. 
+This article contains about A/B testing, make sure the reader understands fundamental concepts about ***control and treatment, p-values, confidence interval, 
+statistical significance, practical significance, randomization, sample, and population*** in order to get the idea about A/B testing. 
 You can get the fundamental statistics by looking at this video.
 
 {% include youtube.html content="https://www.youtube.com/watch?v=bGdTr7yJbNs" %}
