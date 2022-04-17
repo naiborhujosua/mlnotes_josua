@@ -4,6 +4,7 @@ layout: post
 description: The implementation of statistics in A/B testing.
 categories: [abtesting,statistics]
 title: My key takeaways from reading Trustworthy Online Controlled Experiments Book
+comments: true
 ---
 
 {% twitter https://twitter.com/ronnyk/status/1410018546747285508 %}
@@ -11,13 +12,11 @@ title: My key takeaways from reading Trustworthy Online Controlled Experiments B
 This article contains about A/B testing, make sure the reader understands fundamental concepts about control and treatment, p-values, confidence interval, 
 statistical significance, practical significance, randomization, sample, and population in order to get the idea about A/B testing. 
 You can get the fundamental statistics by looking at this video.
-> Important: Pay attention! It's important.
-
 
 {% include youtube.html content="https://www.youtube.com/watch?v=bGdTr7yJbNs" %}
 
 Experimentation/Testing has been everywhere. It is widely adopted by startups to the corporate firm to detect how good the simple or bigger changes of the project or additional feature(be it a website, mobile app, etc.) of the project to give impact to the real-life/business. 
-In Data Science, Experimentation is widely used to predict how good our experimentation is based on a few metrics by using statistical approaches. Online Trustworthy Controlled Experiment is the book I wish I had when I started learning A/B testing/Experimentation. This book covered all the fundamental concepts to advanced concepts about A/B testing through a step-by-step walkthrough 
+In Data Science, Experimentation is widely used to predict how good our experimentation is based on a few metrics by using statistical approaches. [Online Trustworthy Controlled Experiment](https://www.amazon.com/Trustworthy-Online-Controlled-Experiments-Practical/dp/1108724264) is the book I wish I had when I started learning A/B testing/Experimentation. This book covered all the fundamental concepts to advanced concepts about A/B testing through a step-by-step walkthrough 
 such as designing the experimentation, running the experimentation and getting data, interpreting the results and results to decision-making. The author explained clearly the pitfalls and solutions to the problems that could exist during the experimentation.
 
 # A step-by-step walkthrough of A/B Testing
@@ -44,6 +43,10 @@ We also consider launching costs whether the revenue will cover the launch cost 
 Furthermore, We also consider statistical and practical significance thresholds of whether to launch or not launch the product.
 
 Statistical and Practical Significance Thresholds
+<div class="img-container" align="center"> <!-- Block parent element -->
+      <img src="{{site.baseurl}}/images/abtesting.jpeg" alt ="source: Online Trustworthy Controlled Experiment "> 
+ <p>Source: <a href="https://www.amazon.com/Trustworthy-Online-Controlled-Experiments-Practical/dp/1108724264">Online Trustworthy Controlled Experiment</a> </p>
+</div>
 The figure shown above depicts the statistical and practical significance threshold where the two dashed lines are the practical significance boundary and
 the black box is the statistical significance threshold along with the confidence interval. We know from statistics theory that the statistical significance
 threshold is less than or equal to 5% to quantify that we should reject the null hypothesis and the practical significance is managed based on the condition 
