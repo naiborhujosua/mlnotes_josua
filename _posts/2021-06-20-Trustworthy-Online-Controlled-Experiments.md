@@ -6,12 +6,14 @@ categories: [abtesting,statistics]
 title: My key takeaways from reading Trustworthy Online Controlled Experiments Book
 ---
 
-{% twitter https://twitter.com/KirkDBorne/status/1240781773921017857 %}
+{% twitter https://twitter.com/ronnyk/status/1410018546747285508 %}
 
 This article contains about A/B testing, make sure the reader understands fundamental concepts about control and treatment, p-values, confidence interval, 
 statistical significance, practical significance, randomization, sample, and population in order to get the idea about A/B testing. 
 You can get the fundamental statistics by looking at this video.
 > Important: Pay attention! It's important.
+
+
 {% include youtube.html content="https://www.youtube.com/watch?v=bGdTr7yJbNs" %}
 
 Experimentation/Testing has been everywhere. It is widely adopted by startups to the corporate firm to detect how good the simple or bigger changes of the project or additional feature(be it a website, mobile app, etc.) of the project to give impact to the real-life/business. 
