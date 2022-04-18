@@ -14,6 +14,10 @@ For more, please reach out to [LinkedIn](https://www.linkedin.com/in/josuanaibor
 
 #### View [my certificates in Data Science](https://www.coursera.org/user/af5ba3cc942b970cd9bf0a22bbf3b0d3)
 
+## Papers I am currently interested in [arXiv](https://arxiv.org/)
+ - **"Why Should I Trust You?” Explaining the Predictions of Any Classifier**
+ - **Entity Embeddings of Categorical Variables**
+
 ## Books I am currently reading
 
 {% twitter https://twitter.com/tunguz/status/1506657625026760705 %}
