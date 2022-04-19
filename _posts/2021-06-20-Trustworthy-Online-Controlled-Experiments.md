@@ -13,7 +13,7 @@ This article contains about A/B testing, make sure the reader understands fundam
 statistical significance, practical significance, randomization, sample, and population*** in order to get the idea about A/B testing. 
 You can get the fundamental statistics by looking at this video.
 
-{% include youtube.html content="https://www.youtube.com/watch?v=bGdTr7yJbNs" %}
+[![Statistics Is AWESOME]("{{site.baseurl}}/images/statistics.JPG")](https://www.youtube.com/watch?v=bGdTr7yJbNs&t=28s "Statistics Is AWESOME")
 
 Experimentation/Testing has been everywhere. It is widely adopted by startups to the corporate firm to detect how good the simple or bigger changes of the project or additional feature(be it a website, mobile app, etc.) of the project to give impact to the real-life/business. 
 In Data Science, Experimentation is widely used to predict how good our experimentation is based on a few metrics by using statistical approaches. [Online Trustworthy Controlled Experiment](https://www.amazon.com/Trustworthy-Online-Controlled-Experiments-Practical/dp/1108724264) is the book I wish I had when I started learning A/B testing/Experimentation. This book covered all the fundamental concepts to advanced concepts about A/B testing through a step-by-step walkthrough 
