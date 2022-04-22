@@ -12,7 +12,9 @@ Apart from pursuing his passion for Machine Learning, he is keen on investing in
 
 For more, please reach out to [LinkedIn](https://www.linkedin.com/in/josuanaiborhu/)
 
-#### View [my certificates in Data Science](https://www.coursera.org/user/af5ba3cc942b970cd9bf0a22bbf3b0d3)
+## My Certification
+I am not a guy who love collecting certifications in Data Science. Perhaps, you will find somewhere that i have completed a few certifications in Data Science. 
+I love learning and implement what i learn through the course is the most essential things. 
 
 ## Papers I am currently interested in [arXiv](https://arxiv.org/)
  - **"Why Should I Trust You?” Explaining the Predictions of Any Classifier**
