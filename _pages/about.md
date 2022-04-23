@@ -19,6 +19,7 @@ For more, please reach out to [LinkedIn](https://www.linkedin.com/in/josuanaibor
 ## Papers I am currently interested in [arXiv](https://arxiv.org/)
  > - **"Why Should I Trust You?” Explaining the Predictions of Any Classifier**
  > - **Entity Embeddings of Categorical Variables**
+ > - **50 Years of Data Science**
 
 ## Books I am currently reading
 
