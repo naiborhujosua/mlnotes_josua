@@ -6,7 +6,7 @@ permalink: /about/
 
 <div style="width:30%; float:left; padding: 10px" align="center">
     <img style="border: 0px solid gray;border-radius: 20px;-moz-border-radius: 20px;-khtml-border-radius: 20px;-webkit-border-radius: 20px;" 
-     src="{{site.baseurl}}/images/josua.jpg"/>
+     src="{{site.baseurl}}/images/hello.jpg"/>
 </div>
 Josua is a business development analyst who turns into a self-taught Machine Learning Engineer. His interests include statistical learning, predictive modeling, and causal inference.
 He loves running and it teaches him against giving up doing anything, even when implementing the Machine Learning Lifecycle(MLOps).
