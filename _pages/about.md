@@ -24,6 +24,7 @@ For more, please reach out to [LinkedIn](https://www.linkedin.com/in/josuanaibor
  > - **Entity Embeddings of Categorical Variables**
  > - **50 Years of Data Science**
  > - **A Meta-Analysis of Overfitting in Machine Learning**
+ > - **Climbing the Kaggle Leaderboard by Exploiting the Log-Loss Oracle**
 
 ## Books I am currently reading
 
