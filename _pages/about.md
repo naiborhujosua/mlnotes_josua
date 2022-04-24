@@ -23,6 +23,7 @@ For more, please reach out to [LinkedIn](https://www.linkedin.com/in/josuanaibor
  > - **"Why Should I Trust You?” Explaining the Predictions of Any Classifier**
  > - **Entity Embeddings of Categorical Variables**
  > - **50 Years of Data Science**
+ > - **A Meta-Analysis of Overfitting in Machine Learning**
 
 ## Books I am currently reading
 
