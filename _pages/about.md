@@ -25,6 +25,8 @@ For more, please reach out to [LinkedIn](https://www.linkedin.com/in/josuanaibor
  > - **50 Years of Data Science**
  > - **A Meta-Analysis of Overfitting in Machine Learning**
  > - **Climbing the Kaggle Leaderboard by Exploiting the Log-Loss Oracle**
+ > - **Practical Bayesian Optimization Of Machine Learning Algorithms
+**
 
 ## Books I am currently reading
 
