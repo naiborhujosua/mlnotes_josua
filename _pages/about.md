@@ -17,7 +17,7 @@ For more, please reach out to [LinkedIn](https://www.linkedin.com/in/josuanaibor
 
 ## My Certification
 > I am not a guy who love collecting certifications in Data Science. Perhaps, you will find somewhere that i have completed a few certifications in Data Science. 
-**I love learning and implement what i learn in data science competition is the most rewarding thing**. 
+**I love learning and implement what i learn in data science project is the most rewarding thing**. 
 
 ## Papers I am currently interested in [arXiv](https://arxiv.org/)
  > - **"Why Should I Trust You?” Explaining the Predictions of Any Classifier**
