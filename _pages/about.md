@@ -26,6 +26,7 @@ For more, please reach out to [LinkedIn](https://www.linkedin.com/in/josuanaibor
  > - **A Meta-Analysis of Overfitting in Machine Learning**
  > - **Climbing the Kaggle Leaderboard by Exploiting the Log-Loss Oracle**
  > - **Practical Bayesian Optimization Of Machine Learning Algorithms**
+ > - **EDA: Easy Data Augmentation Techniques for Boosting Performance on Text Classification Tasks**
 
 
 ## Books I am currently reading
