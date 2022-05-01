@@ -31,5 +31,5 @@ For more, please reach out to [LinkedIn](https://www.linkedin.com/in/josuanaibor
 
 ## Books I am currently reading
 
-{% twitter https://twitter.com/tunguz/status/1506657625026760705 %}
+{% twitter https://twitter.com/KirkDBorne/status/1506774379451060229 %}
 
