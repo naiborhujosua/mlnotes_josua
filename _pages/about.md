@@ -28,14 +28,8 @@ For more, please reach out to [LinkedIn](https://www.linkedin.com/in/josuanaibor
  > - **Practical Bayesian Optimization Of Machine Learning Algorithms**
  > - **EDA: Easy Data Augmentation Techniques for Boosting Performance on Text Classification Tasks**
 
-
-## Books I am currently reading
-
-{% twitter https://twitter.com/KirkDBorne/status/1506774379451060229 %}
-
 ## Contact Me 
 naiborhujosua@alumni.ui.ac.id
 
-##
 © Josua Antonius Naiborhu, 2020-2022. These posts are meant to be used for educational purposes. Excerpts and links from this site may be used, provided that full and clear credit is given to Josua Naiborhu with appropriate and specific direction to the original content.
 
