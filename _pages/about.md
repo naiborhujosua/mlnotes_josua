@@ -11,9 +11,8 @@ permalink: /about/
 Josua is a business development analyst who turns into a self-taught Machine Learning Engineer. His interests include statistical learning, predictive modeling, and causal inference.
 He loves running and it teaches him against giving up doing anything, even when implementing the Machine Learning Lifecycle(MLOps).
 
-Apart from pursuing his passion for Machine Learning, he is keen on investing in the Indonesian Stock Exchange and Cryptocurrency. He has been running a full marathon in Jakarta Marathon in 2015 and Osaka Marathon in 2019. His next dreams are to run a marathon in Boston Marathon, TCS New York City Marathon and Virgin Money London Marathon.
+Apart from pursuing his passion for Machine Learning, he is keen on investing in the Indonesian Stock Exchange and Cryptocurrency. He has been running a full marathon in Jakarta Marathon in 2015 and Osaka Marathon in 2019. His next dreams are to run a marathon in Boston Marathon, TCS New York City Marathon and London Marathon.
 
-For more, please reach out to [LinkedIn](https://www.linkedin.com/in/josuanaiborhu/)
 
 ## My Certification
 > I am not a guy who love collecting certifications in Data Science. Perhaps, you will find somewhere that i have completed a few certifications in Data Science. 
