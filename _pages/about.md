@@ -24,7 +24,7 @@ Apart from pursuing his passion for Machine Learning, he is keen on investing in
  > - **50 Years of Data Science**
  > - **A Meta-Analysis of Overfitting in Machine Learning**
  > - **Climbing the Kaggle Leaderboard by Exploiting the Log-Loss Oracle**
- > - **Practical Bayesian Optimization Of Machine Learning Algorithms**
+ > - **On Artificial Intelligence - A European approach to excellence and trust**
  > - **EDA: Easy Data Augmentation Techniques for Boosting Performance on Text Classification Tasks**
 
 ## Contact Me 
