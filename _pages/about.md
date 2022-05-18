@@ -28,7 +28,7 @@ Apart from pursuing his passion for Machine Learning, he is keen on investing in
  > - **EDA: Easy Data Augmentation Techniques for Boosting Performance on Text Classification Tasks**
 
 ## Contact Me 
-[naiborhujosua@alumni.ui.ac.id](mailto:josua.naiborhu94@gmail.com)
+[josuadotnaiborhu94atgmaildotcom](mailto:josua.naiborhu94@gmail.com)
 
 © Josua Antonius Naiborhu, 2020-2022.These posts are meant to be used for educational purposes. Excerpts and links from this site may be used, provided that full and clear credit is given to Josua Naiborhu with appropriate and specific direction to the original content.
 
