@@ -20,7 +20,7 @@ Apart from pursuing his passion for Machine Learning, he is keen on investing in
 
 ## Papers I am currently interested in [arXiv](https://arxiv.org/)
  > - **"Why Should I Trust You?” Explaining the Predictions of Any Classifier**
- > - **Entity Embeddings of Categorical Variables**
+ > - **Evaluation Gaps in Machine Learning Practice**
  > - **50 Years of Data Science**
  > - **A Meta-Analysis of Overfitting in Machine Learning**
  > - **Climbing the Kaggle Leaderboard by Exploiting the Log-Loss Oracle**
