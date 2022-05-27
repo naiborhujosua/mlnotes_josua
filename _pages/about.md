@@ -22,7 +22,7 @@ Apart from pursuing his passion for Machine Learning, he is keen on investing in
  > - **"Why Should I Trust You?” Explaining the Predictions of Any Classifier**
  > - **Evaluation Gaps in Machine Learning Practice**
  > - **50 Years of Data Science**
- > - **A Meta-Analysis of Overfitting in Machine Learning**
+ > - **Cyclical Learning Rates for Training Neural Networks**
  > - **Climbing the Kaggle Leaderboard by Exploiting the Log-Loss Oracle**
  > - **On Artificial Intelligence - A European approach to excellence and trust**
  > - **EDA: Easy Data Augmentation Techniques for Boosting Performance on Text Classification Tasks**
