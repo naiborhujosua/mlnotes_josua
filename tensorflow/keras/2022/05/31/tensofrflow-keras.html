@@ -113,7 +113,7 @@ window.onload = wrap_img;
        • <span class="read-time" title="Estimated read time">
     
     
-      3 min read
+      4 min read
     
 </span></p>
 
@@ -132,9 +132,12 @@ window.onload = wrap_img;
     </header>
 
   <div class="post-content e-content" itemprop="articleBody">
-    <p>This is just some random notes  by reading <code class="language-plaintext highlighter-rouge">Deep Learning with Python</code> by  Francois Chollet.This book focusses on developing Deep Learning Models using Keras and Tensorflow.
+    <h2 id="introduction">Introduction</h2>
+<blockquote>
+  <p>This is just some random notes  by reading <code class="language-plaintext highlighter-rouge">Deep Learning with Python</code> by  Francois Chollet.This book focusses on developing Deep Learning Models using Keras and Tensorflow.
 I found this book is very good at explaining Deep learning.I try making notes for important chapters that i think it is essential for improving myself in developing deep learning models. 
 I took some source code from the book as a reference.</p>
+</blockquote>
 
 <h2 id="different-ways-of-building-models-in-keras">Different ways of building models in Keras</h2>
 <ul>
@@ -214,12 +217,12 @@ Imagine you are building a system to rank customer support tickets by priority a
 
 <span class="n">keras</span><span class="p">.</span><span class="n">utils</span><span class="p">.</span><span class="n">plot_model</span><span class="p">(</span><span class="n">new_model</span><span class="p">,</span><span class="s">"updated_ticket_classifier.png"</span><span class="p">,</span><span class="n">show_shapes</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
 </code></pre></div></div>
-<h2 id="subcalssing-model-class">Subcalssing Model class</h2>
+<h2 id="subclassing-model-class">Subclassing Model class</h2>
 <p>This is the advanced of building model pattern by subclassing Layer class to create custom layers.
 This is like subclassing nn.Model in pytorch(if you experienced in pytorch)</p>
 
-<p>-<strong>init</strong> for defining the layers the model will use</p>
 <ul>
+  <li><strong>init</strong> for defining the layers the model will use</li>
   <li>call() for defining the forward pass of the model by reusing previously layers created.</li>
 </ul>
 
@@ -250,6 +253,89 @@ This is like subclassing nn.Model in pytorch(if you experienced in pytorch)</p>
 
  <span class="c1">## Do compile(),fit(),evalueate and predict() as usual.
 </span> 
+</code></pre></div></div>
+
+<h2 id="writing-own-callbacks-lossearlystoppingmodelcheckpoint">Writing own callbacks (loss,EarlyStopping,ModelCheckPoint)</h2>
+
+<p>There are a few methods available in keras.callbacks.Callback class</p>
+<ul>
+  <li>on_epoch_begin(epoch,logs) for calling at the start of every epoch</li>
+  <li>on_epoch_end(epoch,logs) for calling at the end of every epoch</li>
+  <li>on_batch_begin(batch,logs)  for calling tight before processing each batch</li>
+  <li>on_batch_end(batch,logs) for calling right after processing each batch</li>
+  <li>on_train_begin(logs) for calling at the start of training</li>
+  <li>on_train_end(logs) for calling at the end of training</li>
+</ul>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">matplotlib</span> <span class="kn">import</span> <span class="n">pyplot</span> <span class="k">as</span> <span class="n">plt</span>
+ 
+<span class="c1">## Transform Training fit() ModelCheckPoint and EarlyStopping
+</span><span class="sb">``</span><span class="err">`</span><span class="n">python</span> 
+<span class="kn">from</span> <span class="nn">tensorflow.keras.datasets</span> <span class="kn">import</span> <span class="n">mnist</span>
+
+<span class="k">def</span> <span class="nf">get_mnist_model</span><span class="p">():</span>
+    <span class="n">inputs</span> <span class="o">=</span> <span class="n">keras</span><span class="p">.</span><span class="n">Input</span><span class="p">(</span><span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="mi">28</span><span class="o">*</span><span class="mi">28</span><span class="p">,))</span>
+    <span class="n">features</span> <span class="o">=</span> <span class="n">layers</span><span class="p">.</span><span class="n">Dense</span><span class="p">(</span><span class="mi">512</span><span class="p">,</span><span class="n">activation</span><span class="o">=</span><span class="s">"relu"</span><span class="p">)(</span><span class="n">inputs</span><span class="p">)</span>
+    <span class="n">features</span> <span class="o">=</span><span class="n">layers</span><span class="p">.</span><span class="n">Dropout</span><span class="p">(</span><span class="mf">0.5</span><span class="p">)(</span><span class="n">features</span><span class="p">)</span>
+    <span class="n">outputs</span> <span class="o">=</span><span class="n">layers</span><span class="p">.</span><span class="n">Dense</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="n">activation</span><span class="o">=</span><span class="s">"softmax"</span><span class="p">)(</span><span class="n">features</span><span class="p">)</span>
+    <span class="n">model</span> <span class="o">=</span><span class="n">keras</span><span class="p">.</span><span class="n">Model</span><span class="p">(</span><span class="n">inputs</span><span class="p">,</span><span class="n">outputs</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">model</span>
+
+
+<span class="p">(</span><span class="n">images</span><span class="p">,</span><span class="n">labels</span><span class="p">),(</span><span class="n">test_images</span><span class="p">,</span><span class="n">test_labels</span><span class="p">)</span> <span class="o">=</span><span class="n">mnist</span><span class="p">.</span><span class="n">load_data</span><span class="p">()</span>
+<span class="n">images</span> <span class="o">=</span> <span class="n">images</span><span class="p">.</span><span class="n">reshape</span><span class="p">((</span><span class="mi">60000</span><span class="p">,</span><span class="mi">28</span><span class="o">*</span><span class="mi">28</span><span class="p">)).</span><span class="n">astype</span><span class="p">(</span><span class="s">"float32"</span><span class="p">)</span><span class="o">/</span><span class="mi">255</span>
+<span class="n">test_images</span> <span class="o">=</span><span class="n">test_images</span><span class="p">.</span><span class="n">reshape</span><span class="p">((</span><span class="mi">10000</span><span class="p">,</span><span class="mi">28</span><span class="o">*</span><span class="mi">28</span><span class="p">)).</span><span class="n">astype</span><span class="p">(</span><span class="s">"float32"</span><span class="p">)</span><span class="o">/</span><span class="mi">255</span>
+<span class="n">train_images</span><span class="p">,</span><span class="n">val_images</span> <span class="o">=</span> <span class="n">images</span><span class="p">[</span><span class="mi">10000</span><span class="p">:],</span><span class="n">images</span><span class="p">[:</span><span class="mi">10000</span><span class="p">]</span>
+<span class="n">train_labels</span><span class="p">,</span><span class="n">val_labels</span> <span class="o">=</span> <span class="n">labels</span><span class="p">[</span><span class="mi">10000</span><span class="p">:],</span><span class="n">labels</span><span class="p">[:</span><span class="mi">10000</span><span class="p">]</span>
+
+<span class="n">model</span> <span class="o">=</span> <span class="n">get_mnist_model</span><span class="p">()</span>
+<span class="n">model</span><span class="p">.</span><span class="nb">compile</span><span class="p">(</span><span class="n">optimizer</span><span class="o">=</span><span class="s">"rmsprop"</span><span class="p">,</span><span class="n">loss</span><span class="o">=</span><span class="s">"sparse_categorical_crossentropy"</span><span class="p">,</span>
+<span class="n">metrics</span> <span class="o">=</span><span class="p">[</span><span class="s">"accuracy"</span><span class="p">])</span>
+
+<span class="n">model</span><span class="p">.</span><span class="n">fit</span><span class="p">(</span><span class="n">train_images</span><span class="p">,</span><span class="n">train_labels</span><span class="p">,</span><span class="n">epoch</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span><span class="n">validation_data</span><span class="o">=</span><span class="p">[</span><span class="n">test_images</span><span class="p">,</span><span class="n">test_labels</span><span class="p">])</span>
+<span class="n">test_metrics</span> <span class="o">=</span><span class="n">model</span><span class="p">.</span><span class="n">evaluate</span><span class="p">(</span><span class="n">test_images</span><span class="p">,</span><span class="n">val_label</span><span class="p">)</span>
+<span class="n">predictions</span> <span class="o">=</span><span class="n">model</span><span class="p">.</span><span class="n">predict</span><span class="p">(</span><span class="n">test_images</span><span class="p">)</span>
+
+<span class="n">callbacks_list</span> <span class="o">=</span><span class="p">[</span>
+    <span class="n">keras</span><span class="p">.</span><span class="n">callbacks</span><span class="p">.</span><span class="n">EarlyStopping</span><span class="p">(</span>
+    <span class="n">monitor</span><span class="o">=</span><span class="s">"val_accuracy"</span><span class="p">,</span>
+    <span class="n">patience</span><span class="o">=</span><span class="mi">2</span><span class="p">,),</span>
+    <span class="n">keras</span><span class="p">.</span><span class="n">callbacks</span><span class="p">.</span><span class="n">ModelCheckPoint</span><span class="p">(</span>
+        <span class="n">filepath</span><span class="o">=</span><span class="s">"checkpoint_path.keras"</span><span class="p">,</span>
+        <span class="n">monitor</span> <span class="o">=</span><span class="s">"val_loss"</span><span class="p">,</span>
+        <span class="n">save_best_only</span><span class="o">=</span><span class="bp">True</span>
+    <span class="p">)</span>
+<span class="p">]</span>
+<span class="n">model</span> <span class="o">=</span> <span class="n">get_mnist_model</span><span class="p">()</span>
+<span class="n">model</span><span class="p">.</span><span class="nb">compile</span><span class="p">(</span><span class="n">optimizer</span><span class="o">=</span><span class="s">"rmsprop"</span><span class="p">,</span>
+              <span class="n">loss</span> <span class="o">=</span><span class="s">"sparse_categorical_crossentropy"</span><span class="p">,</span>
+              <span class="n">metrics</span> <span class="o">=</span><span class="p">[</span><span class="s">"accuracy"</span><span class="p">])</span>
+<span class="n">model</span><span class="p">.</span><span class="n">fit</span><span class="p">(</span><span class="n">train_images</span><span class="p">,</span><span class="n">train_labels</span><span class="p">,</span><span class="n">epochs</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span><span class="n">calbacks</span><span class="o">=</span><span class="n">callbacks_list</span><span class="p">,</span>
+<span class="n">validation_data</span><span class="o">=</span><span class="p">[</span><span class="n">val_images</span><span class="p">,</span><span class="n">val_labels</span><span class="p">])</span>
+
+<span class="c1">#Load the model 
+</span><span class="n">model</span> <span class="o">=</span> <span class="n">keras</span><span class="p">.</span><span class="n">models</span><span class="p">.</span><span class="n">load_model</span><span class="p">(</span><span class="s">"checkpoint_path.keras"</span><span class="p">)</span>
+
+<span class="k">class</span> <span class="nc">lossHistory</span><span class="p">(</span><span class="n">keras</span><span class="p">.</span><span class="n">callbacks</span><span class="p">.</span><span class="n">Callback</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">on_train_begin</span><span class="p">(</span><span class="n">self_logs</span><span class="p">):</span>
+        <span class="bp">self</span><span class="p">.</span><span class="n">per_batch_losses</span><span class="o">=</span><span class="p">[]</span>
+
+    <span class="k">def</span> <span class="nf">on_batch_end</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">batch</span><span class="p">,</span><span class="n">logs</span><span class="p">):</span>
+        <span class="bp">self</span><span class="p">.</span><span class="n">per_batch_losses</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="n">logs</span><span class="p">.</span><span class="n">get</span><span class="p">(</span><span class="s">"loss"</span><span class="p">))</span>
+
+    <span class="k">def</span> <span class="nf">on_epoch_end</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">epoch</span><span class="p">,</span><span class="n">logs</span><span class="p">):</span>
+        <span class="n">plt</span><span class="p">.</span><span class="n">clf</span><span class="p">()</span>
+        <span class="n">plt</span><span class="p">.</span><span class="n">plot</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="p">.</span><span class="n">per_batch_losses</span><span class="p">)),</span><span class="bp">self</span><span class="p">.</span><span class="n">per_batch_losses</span><span class="p">,</span><span class="n">label</span><span class="o">=</span><span class="s">"Training loss for each batch"</span><span class="p">)</span>
+        <span class="n">plt</span><span class="p">.</span><span class="n">xlabel</span><span class="p">(</span><span class="sa">f</span><span class="s">"Batch (epoch</span><span class="si">{</span><span class="n">epoch</span><span class="si">}</span><span class="s">)"</span><span class="p">)</span>
+        <span class="bp">self</span><span class="p">.</span><span class="n">per_batch_losses</span> <span class="o">=</span><span class="p">[]</span>
+
+<span class="n">model</span> <span class="o">=</span> <span class="n">model_get_mnist_model</span><span class="p">()</span>
+<span class="n">model</span><span class="p">.</span><span class="nb">compile</span><span class="p">(</span><span class="n">optimizer</span><span class="o">=</span><span class="s">"rmsprop"</span><span class="p">,</span>
+                <span class="n">loss</span> <span class="o">=</span><span class="s">"sparse_categorical_crossentropy"</span><span class="p">,</span>
+                <span class="n">metrics</span><span class="o">=</span><span class="p">[</span><span class="s">"accuracy"</span><span class="p">])</span>
+<span class="n">model</span><span class="p">.</span><span class="n">fit</span><span class="p">(</span><span class="n">train_images</span><span class="p">,</span><span class="n">train_labels</span><span class="p">,</span><span class="n">epochs</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span><span class="n">callbacks</span><span class="o">=</span><span class="p">[</span><span class="n">LossHistory</span><span class="p">()],</span>
+            <span class="n">validation_data</span><span class="o">=</span><span class="p">[</span><span class="n">val_images</span><span class="p">,</span><span class="n">val_labels</span><span class="p">])</span>
+
 </code></pre></div></div>
 
 
