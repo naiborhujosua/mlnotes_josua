@@ -8,7 +8,7 @@ categories: [tensorflow, keras]
 author: josua naiborhu
 ---
 ## Introduction
-> This is just some random notes  by reading `Deep Learning with Python` by  Francois Chollet.This book focusses on developing Deep Learning Models using Keras and Tensorflow.
+> Some random notes  by reading `Deep Learning with Python by  Francois Chollet`. This book focusses on developing Deep Learning Models using Keras and Tensorflow.
 I found this book is very good at explaining Deep learning.I try making notes for important chapters that i think it is essential for improving myself in developing deep learning models. 
 I took some source code from the book as a reference. 
 
