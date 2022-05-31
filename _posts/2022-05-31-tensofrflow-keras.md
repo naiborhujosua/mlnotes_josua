@@ -1,11 +1,9 @@
 ---
-title: "Part 1: Building Models in Keras and Tensorflow"
+title: "Part 1: Building Deep Learning Models by using Keras and Tensorflow"
 description: Learning how to build simple to complex architecture of deep learning model.
 comments: true
-hide: false
 toc: false
 layout: post
-hide: false
 categories: [tensorflow, keras]
 author: josua naiborhu
 ---
