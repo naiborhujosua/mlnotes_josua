@@ -113,7 +113,7 @@ window.onload = wrap_img;
        • <span class="read-time" title="Estimated read time">
     
     
-      4 min read
+      5 min read
     
 </span></p>
 
@@ -335,7 +335,75 @@ This is like subclassing nn.Model in pytorch(if you experienced in pytorch)</p>
                 <span class="n">metrics</span><span class="o">=</span><span class="p">[</span><span class="s">"accuracy"</span><span class="p">])</span>
 <span class="n">model</span><span class="p">.</span><span class="n">fit</span><span class="p">(</span><span class="n">train_images</span><span class="p">,</span><span class="n">train_labels</span><span class="p">,</span><span class="n">epochs</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span><span class="n">callbacks</span><span class="o">=</span><span class="p">[</span><span class="n">LossHistory</span><span class="p">()],</span>
             <span class="n">validation_data</span><span class="o">=</span><span class="p">[</span><span class="n">val_images</span><span class="p">,</span><span class="n">val_labels</span><span class="p">])</span>
+            
+</code></pre></div></div>
+<h2 id="a-complete-training-and-evaluation-loop-from-scratchfit-and-evaluate-method">A complete training and evaluation loop from scratch(fit() and evaluate() method)</h2>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># Training Process
+</span><span class="n">model</span> <span class="o">=</span> <span class="n">get_mnist_model</span><span class="p">()</span>
+<span class="n">loss_fn</span> <span class="o">=</span><span class="n">keras</span><span class="p">.</span><span class="n">losses</span><span class="p">.</span><span class="n">SparseCategoricalCrossentropy</span><span class="p">()</span>
+<span class="n">optimizer</span> <span class="o">=</span><span class="n">keras</span><span class="p">.</span><span class="n">optimizers</span><span class="p">.</span><span class="n">RMSprop</span><span class="p">()</span>
+<span class="n">metrics</span> <span class="o">=</span> <span class="p">[</span><span class="n">keras</span><span class="p">.</span><span class="n">metrics</span><span class="p">.</span><span class="n">SparseCategoricalAccuracy</span><span class="p">()]</span>
+<span class="n">loss_tracking_metrics</span> <span class="o">=</span><span class="n">keras</span><span class="p">.</span><span class="n">metrics</span><span class="p">.</span><span class="n">Mean</span><span class="p">()</span>
 
+<span class="k">def</span> <span class="nf">train_step</span><span class="p">(</span><span class="n">inputs</span><span class="p">,</span><span class="n">targets</span><span class="p">):</span>
+    <span class="k">with</span> <span class="n">tf</span><span class="p">.</span><span class="n">GradientTape</span><span class="p">()</span> <span class="k">as</span> <span class="n">tape</span><span class="p">:</span>
+        <span class="c1"># training=True during training
+</span>        <span class="n">predictions</span> <span class="o">=</span><span class="n">model</span><span class="p">(</span><span class="n">inputs</span><span class="p">,</span><span class="n">training</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+        <span class="n">loss</span> <span class="o">=</span><span class="n">loss_fn</span><span class="p">(</span><span class="n">targets</span><span class="p">,</span><span class="n">predictions</span><span class="p">)</span>
+    <span class="n">gradients</span> <span class="o">=</span> <span class="n">tape</span><span class="p">.</span><span class="n">gradients</span><span class="p">(</span><span class="n">loss</span><span class="p">,,</span><span class="n">model</span><span class="p">.</span><span class="n">trainable_weights</span><span class="p">)</span>
+    <span class="n">optimizer</span><span class="p">.</span><span class="n">apply_gradients</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">gradients</span><span class="p">,</span><span class="n">model</span><span class="p">.</span><span class="n">trainable_weights</span><span class="p">))</span>
+    
+    <span class="n">logs</span> <span class="o">=</span><span class="p">{}</span>
+    <span class="k">for</span> <span class="n">metric</span> <span class="ow">in</span> <span class="n">metrics</span><span class="p">:</span>
+        <span class="n">metric</span><span class="p">.</span><span class="n">update_state</span><span class="p">(</span><span class="n">targets</span><span class="p">,</span><span class="n">predictions</span><span class="p">)</span>
+        <span class="n">logs</span><span class="p">[</span><span class="n">metric</span><span class="p">.</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span><span class="n">metric</span><span class="p">.</span><span class="n">result</span><span class="p">()</span>
+        
+    <span class="n">loss_tracking_metric</span><span class="p">.</span><span class="n">update_state</span><span class="p">(</span><span class="n">loss</span><span class="p">)</span>
+    <span class="n">logs</span><span class="p">[</span><span class="s">"loss"</span><span class="p">]</span> <span class="o">=</span> <span class="n">loss_tracking_metric</span><span class="p">.</span><span class="n">result</span><span class="p">()</span>
+    
+    <span class="k">return</span> <span class="n">logs</span>
+    
+ <span class="k">def</span> <span class="nf">reset_metrics</span><span class="p">():</span>
+    <span class="k">for</span> <span class="n">metric</span> <span class="ow">in</span> <span class="n">metrics</span><span class="p">:</span>
+        <span class="n">metric</span><span class="p">.</span><span class="n">reset_state</span><span class="p">()</span>
+    <span class="n">loss_tracking_metric</span><span class="p">.</span><span class="n">reset_state</span><span class="p">()</span>
+    
+ <span class="n">training_dataset</span> <span class="o">=</span><span class="n">tf</span><span class="p">.</span><span class="n">data</span><span class="p">.</span><span class="n">Dataset</span><span class="p">.</span><span class="n">from_tensor_slices</span><span class="p">((</span><span class="n">train_images</span><span class="p">,</span><span class="n">train_labels</span><span class="p">))</span>
+ <span class="n">training_dataset</span> <span class="o">=</span> <span class="n">training_dataset</span><span class="p">.</span><span class="n">batch</span><span class="p">(</span><span class="mi">32</span><span class="p">)</span>
+ <span class="n">epochs</span> <span class="o">=</span><span class="mi">3</span>
+ <span class="k">for</span> <span class="n">epoch</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">epochs</span><span class="p">):</span>
+     <span class="n">reset_metrics</span><span class="p">()</span>
+     <span class="k">for</span> <span class="n">input_batch</span><span class="p">,</span><span class="n">targets_batch</span> <span class="ow">in</span> <span class="n">training_dataset</span><span class="p">:</span>
+         <span class="n">logs</span> <span class="o">=</span><span class="n">train_step</span><span class="p">(</span><span class="n">input_batchs</span><span class="p">,</span><span class="n">targets_batch</span><span class="p">)</span>
+     <span class="k">print</span><span class="p">(</span><span class="sa">f</span><span class="s">"Results at the end of epoch </span><span class="si">{</span><span class="n">epoch</span><span class="si">}</span><span class="s">"</span><span class="p">)</span>
+     <span class="k">for</span> <span class="n">key</span><span class="p">,</span><span class="n">value</span> <span class="ow">in</span> <span class="n">logs</span><span class="p">.</span><span class="n">items</span><span class="p">():</span>
+          <span class="k">print</span><span class="p">(</span><span class="sa">f</span><span class="s">"....</span><span class="si">{</span><span class="n">key</span><span class="si">}</span><span class="s">: </span><span class="si">{</span><span class="n">value</span><span class="p">:.</span><span class="mi">4</span><span class="n">f</span><span class="si">}</span><span class="s">"</span><span class="p">)</span>
+          
+<span class="c1"># Evaluation loop
+</span><span class="k">def</span> <span class="nf">test_step</span><span class="p">(</span><span class="n">inputs</span><span class="p">,</span><span class="n">targets</span><span class="p">):</span>
+    <span class="c1">#training=False for evaluation
+</span>    <span class="n">predictions</span><span class="o">=</span> <span class="n">model</span><span class="p">(</span><span class="n">inputs</span><span class="p">,</span><span class="n">training</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+    <span class="n">loss</span> <span class="o">=</span><span class="n">loss_fn</span><span class="p">(</span><span class="n">targets</span><span class="p">,</span><span class="n">predictions</span><span class="p">)</span>
+    
+    <span class="n">logs</span> <span class="o">=</span><span class="p">{}</span>
+    <span class="k">for</span> <span class="n">metric</span> <span class="ow">in</span> <span class="n">metrics</span><span class="p">:</span>
+        <span class="n">metric</span><span class="p">.</span><span class="n">update_state</span><span class="p">(</span><span class="n">targets</span><span class="p">,</span><span class="n">predictions</span><span class="p">)</span>
+        <span class="n">logs</span><span class="p">[</span><span class="s">"val"</span> <span class="o">+</span><span class="n">metric</span><span class="p">.</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="n">metric</span><span class="p">.</span><span class="n">result</span><span class="p">()</span>
+        
+        <span class="n">loss_tracking_metric</span><span class="p">.</span><span class="n">update_state</span><span class="p">(</span><span class="n">loss</span><span class="p">)</span>
+        <span class="n">logs</span><span class="p">[</span><span class="s">"val_loss"</span><span class="p">]</span> <span class="o">=</span> <span class="n">loss_tracking_metrics</span><span class="p">.</span><span class="n">result</span><span class="p">()</span>
+        <span class="k">return</span> <span class="n">logs</span>
+        
+    <span class="n">val_dataset</span> <span class="o">=</span> <span class="n">tf</span><span class="p">.</span><span class="n">data</span><span class="p">.</span><span class="n">Dataset</span><span class="p">.</span><span class="n">from_tesor_slices</span><span class="p">((</span><span class="n">val_images</span><span class="p">,</span><span class="n">val_labels</span><span class="p">))</span>
+    <span class="n">val_dataset</span> <span class="o">=</span><span class="n">val_dataset</span><span class="p">.</span><span class="n">batch</span><span class="p">(</span><span class="mi">32</span><span class="p">)</span>
+    <span class="n">reset_metrics</span><span class="p">()</span>
+    
+    <span class="k">for</span> <span class="n">inputs_batch</span><span class="p">,</span><span class="n">targets_batch</span> <span class="ow">in</span> <span class="n">val_dataset</span><span class="p">:</span>
+        <span class="n">logs</span> <span class="o">=</span> <span class="n">test_step</span><span class="p">(</span><span class="n">inputs_batch</span><span class="p">,</span><span class="n">targets_batch</span><span class="p">)</span>
+    <span class="k">print</span><span class="p">(</span><span class="s">"Evaluation results."</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">key</span><span class="p">,</span><span class="n">value</span> <span class="ow">in</span> <span class="n">logs</span><span class="p">.</span><span class="n">items</span><span class="p">():</span>
+        <span class="k">print</span><span class="p">(</span><span class="sa">f</span><span class="s">"...</span><span class="si">{</span><span class="n">key</span><span class="si">}</span><span class="s"> : </span><span class="si">{</span><span class="n">value</span><span class="p">:.</span><span class="mi">4</span><span class="n">f</span><span class="si">}</span><span class="s">"</span><span class="p">)</span>
+          
 </code></pre></div></div>
 
 
