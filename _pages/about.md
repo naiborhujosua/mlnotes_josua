@@ -26,6 +26,7 @@ Apart from pursuing his passion for Machine Learning, he is keen on investing in
  > - **Climbing the Kaggle Leaderboard by Exploiting the Log-Loss Oracle**
  > - **On Artificial Intelligence - A European approach to excellence and trust**
  > - **EDA: Easy Data Augmentation Techniques for Boosting Performance on Text Classification Tasks**
+ > - **The Unreasonable Effectiveness of Data**
 
 ## Contact Me 
 [josuadotnaiborhu94atgmaildotcom](mailto:josua.naiborhu94@gmail.com)
