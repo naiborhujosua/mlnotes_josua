@@ -127,7 +127,6 @@ priority,department =model({"title":title_data,"text_body":text_body_data,"tags"
  ## Do compile(),fit(),evalueate and predict() as usual.
  
 ```
- -- To Be Continued
 
 
 
