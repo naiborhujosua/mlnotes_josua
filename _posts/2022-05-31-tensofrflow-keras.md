@@ -7,8 +7,8 @@ layout: post
 categories: [tensorflow, keras]
 author: josua naiborhu
 ---
-
-This is just some random notes  by reading `Deep Learning with Python` by  Francois Chollet.This book focusses on developing Deep Learning Models using Keras and Tensorflow.
+## Introduction
+> This is just some random notes  by reading `Deep Learning with Python` by  Francois Chollet.This book focusses on developing Deep Learning Models using Keras and Tensorflow.
 I found this book is very good at explaining Deep learning.I try making notes for important chapters that i think it is essential for improving myself in developing deep learning models. 
 I took some source code from the book as a reference. 
 
@@ -91,11 +91,11 @@ outputs=[priority,department,difficulty])
 
 keras.utils.plot_model(new_model,"updated_ticket_classifier.png",show_shapes=True)
 ```
-## Subcalssing Model class
+## Subclassing Model class
 This is the advanced of building model pattern by subclassing Layer class to create custom layers.
 This is like subclassing nn.Model in pytorch(if you experienced in pytorch)
 
--__init__ for defining the layers the model will use 
+- __init__ for defining the layers the model will use 
 - call() for defining the forward pass of the model by reusing previously layers created.
 
 ```python 
@@ -126,7 +126,91 @@ priority,department =model({"title":title_data,"text_body":text_body_data,"tags"
 
  ## Do compile(),fit(),evalueate and predict() as usual.
  
+ ```
+
+
+## Writing own callbacks (loss,EarlyStopping,ModelCheckPoint)
+
+There are a few methods available in keras.callbacks.Callback class 
+- on_epoch_begin(epoch,logs) for calling at the start of every epoch
+- on_epoch_end(epoch,logs) for calling at the end of every epoch
+- on_batch_begin(batch,logs)  for calling tight before processing each batch
+- on_batch_end(batch,logs) for calling right after processing each batch
+- on_train_begin(logs) for calling at the start of training 
+- on_train_end(logs) for calling at the end of training
+
+```python
+from matplotlib import pyplot as plt
+ 
+## Transform Training fit() ModelCheckPoint and EarlyStopping
+```python 
+from tensorflow.keras.datasets import mnist
+
+def get_mnist_model():
+    inputs = keras.Input(shape=(28*28,))
+    features = layers.Dense(512,activation="relu")(inputs)
+    features =layers.Dropout(0.5)(features)
+    outputs =layers.Dense(10,activation="softmax")(features)
+    model =keras.Model(inputs,outputs)
+    return model
+
+
+(images,labels),(test_images,test_labels) =mnist.load_data()
+images = images.reshape((60000,28*28)).astype("float32")/255
+test_images =test_images.reshape((10000,28*28)).astype("float32")/255
+train_images,val_images = images[10000:],images[:10000]
+train_labels,val_labels = labels[10000:],labels[:10000]
+
+model = get_mnist_model()
+model.compile(optimizer="rmsprop",loss="sparse_categorical_crossentropy",
+metrics =["accuracy"])
+
+model.fit(train_images,train_labels,epoch=3,validation_data=[test_images,test_labels])
+test_metrics =model.evaluate(test_images,val_label)
+predictions =model.predict(test_images)
+
+callbacks_list =[
+    keras.callbacks.EarlyStopping(
+    monitor="val_accuracy",
+    patience=2,),
+    keras.callbacks.ModelCheckPoint(
+        filepath="checkpoint_path.keras",
+        monitor ="val_loss",
+        save_best_only=True
+    )
+]
+model = get_mnist_model()
+model.compile(optimizer="rmsprop",
+              loss ="sparse_categorical_crossentropy",
+              metrics =["accuracy"])
+model.fit(train_images,train_labels,epochs=10,calbacks=callbacks_list,
+validation_data=[val_images,val_labels])
+
+#Load the model 
+model = keras.models.load_model("checkpoint_path.keras")
+
+class lossHistory(keras.callbacks.Callback):
+    def on_train_begin(self_logs):
+        self.per_batch_losses=[]
+
+    def on_batch_end(self,batch,logs):
+        self.per_batch_losses.append(logs.get("loss"))
+
+    def on_epoch_end(self,epoch,logs):
+        plt.clf()
+        plt.plot(range(len(self.per_batch_losses)),self.per_batch_losses,label="Training loss for each batch")
+        plt.xlabel(f"Batch (epoch{epoch})")
+        self.per_batch_losses =[]
+
+model = model_get_mnist_model()
+model.compile(optimizer="rmsprop",
+                loss ="sparse_categorical_crossentropy",
+                metrics=["accuracy"])
+model.fit(train_images,train_labels,epochs=10,callbacks=[LossHistory()],
+            validation_data=[val_images,val_labels])
+
 ```
+
 
 
 
