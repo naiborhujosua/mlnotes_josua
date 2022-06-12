@@ -27,6 +27,7 @@ Apart from pursuing his passion for Machine Learning, he is keen on investing in
  > - **On Artificial Intelligence - A European approach to excellence and trust**
  > - **EDA: Easy Data Augmentation Techniques for Boosting Performance on Text Classification Tasks**
  > - **The Unreasonable Effectiveness of Data**
+ > - **Towards ML Engineering: A Brief History Of TensorFlow Extended (TFX)**
 
 ## Contact Me 
 [josuadotnaiborhu94atgmaildotcom](mailto:josua.naiborhu94@gmail.com)
