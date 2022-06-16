@@ -30,6 +30,7 @@ Apart from pursuing his passion for Machine Learning, he is keen on investing in
  > - **Towards ML Engineering: A Brief History Of TensorFlow Extended (TFX)**
  > - **Microsoft COCO: Common Objects in Context**
  > - **is all you need: On the influence of random seeds in deep learning architectures for computer vision**
+ > - **Advancing mathematics by guiding human intuition with AI**
 
 ## Contact Me 
 [josuadotnaiborhu94atgmaildotcom](mailto:josua.naiborhu94@gmail.com)
