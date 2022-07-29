@@ -14,8 +14,8 @@ He loves running and it teaches him against giving up doing anything, even when 
 Apart from pursuing his passion for Machine Learning, he is keen on investing in the Indonesian Stock Exchange and Cryptocurrency. He has been running a full marathon in Jakarta Marathon in 2015 and Osaka Marathon in 2019. His next dreams are to run a marathon in Boston Marathon, TCS New York City Marathon and Virgin Money London Marathon.
 
 
-## Me @Twitter
-> twitter: [https://twitter.com/jakevdp/status/1204765621767901185?s=20](https://twitter.com/naiborhu_josua/status/1552812985047207938)
+## TweetCard
+> twitter: https://twitter.com/naiborhu_josua/status/1552812985047207938
 
 ## Papers I am currently interested in [arXiv](https://arxiv.org/)
  > - **"Why Should I Trust You?” Explaining the Predictions of Any Classifier**
