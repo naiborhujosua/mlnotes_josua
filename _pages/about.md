@@ -15,7 +15,7 @@ Apart from pursuing his passion for Machine Learning, he is keen on investing in
 
 
 ## TweetCard
-> twitter: https://twitter.com/naiborhu_josua/status/1552812985047207938
+{% include twitter.html content='https://twitter.com/naiborhu_josua/status/1552812985047207938' %}
 
 ## Papers I am currently interested in [arXiv](https://arxiv.org/)
  > - **"Why Should I Trust You?” Explaining the Predictions of Any Classifier**
