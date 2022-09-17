@@ -31,6 +31,7 @@ Apart from pursuing his passion for Machine Learning, he is keen on investing in
  > - **is all you need: On the influence of random seeds in deep learning architectures for computer vision**
  > - **Advancing mathematics by guiding human intuition with AI**
  > - **Machine Learning Operations (MLOps): Overview, Definition, and Architecture**
+ > - **To Explain or to Predict?**
 
 ## Contact Me 
 [josuadotnaiborhu94atgmaildotcom](mailto:josua.naiborhu94@gmail.com)
