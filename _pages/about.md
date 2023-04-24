@@ -8,10 +8,7 @@ permalink: /about/
     <img style="border: 0px solid gray;border-radius: 20px;-moz-border-radius: 20px;-khtml-border-radius: 20px;-webkit-border-radius: 20px;" 
      src="{{site.baseurl}}/images/hello.jpg"/>
 </div>
-Josua is a business development analyst who turns into a self-taught Machine Learning Engineer. His interests include statistical learning, predictive modeling, and causal inference.
-He loves running and it teaches him against giving up doing anything, even when implementing the Machine Learning Lifecycle(MLOps).
-
-Apart from pursuing his passion for Machine Learning, he is keen on investing in the Indonesian Stock Exchange and Cryptocurrency. He has been running a full marathon in Jakarta Marathon in 2015 and Osaka Marathon in 2019. His next dreams are to run a marathon in Boston Marathon, TCS New York City Marathon and Virgin Money London Marathon.
+Josua is a Machine Learning Engineer that focuses on solving industry problems as well as anyone who wants to break a career into Data Analytic, Data Scientist, or Machine Learning Engineer by using a few approaches such as statistical learning, predictive modeling, bayesian statistics, interpretable machine learning, data-centric AI, ai ethics, and MLOps. He loves sharing content about Machine Learning, Deep Learning, as well as aligning business intent with AI capability.
 
 
 ## TweetCard
